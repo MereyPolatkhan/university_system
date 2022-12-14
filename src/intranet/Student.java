@@ -51,7 +51,7 @@ public class Student extends UserDecorator {
         	new RequestFromStudent("Register for course", definition, this);
         	return true;
     	} catch (Exception e) {
-    		throw new RuntimeException("Exception in registration for course");
+    		throw new RuntimeException("Exception in putting mark");
     	}
     	  // Student creates request and add to requests Vector (send to Manager)
     	  // Request constructor / Request(String header, String definition, BasicUser sender)
@@ -72,9 +72,10 @@ public class Student extends UserDecorator {
     }
   
 	public Vector<Course> viewCourses() {
-    	  return Datebase.courses.stream()
-    		    	.filter(c->c.equals(currentCoursesMarks.keySet()))
-    		    	.collect(Collectors.toCollection(Vector::new));
+		return schedule.courses;
+//    	  return Datebase.courses.stream()
+//    		    	.filter(c->c.equals(currentCoursesMarks.keySet()))
+//    		    	.collect(Collectors.toCollection(Vector::new));
     }
 
     public boolean rateTeacher(Teacher teacher, Double rate) {
@@ -84,7 +85,7 @@ public class Student extends UserDecorator {
     			teacher.setTeacherRate(rate);
         	return true;
     	} catch (Exception e) {
-    		throw new RuntimeException("Exception in rating teacher");
+    		throw new RuntimeException("Exception in putting mark");
     	}
     }
   
@@ -96,4 +97,11 @@ public class Student extends UserDecorator {
     	 DiplomaProjects.projects.add(d);
     	 return true;
     }
+	
+    /*
+     * o Students can not have more than 21 credits
+		o Students can not fail more than 3 times
+		o FIT Students can not have FOGI courses (only as electives)
+		o Mark consists of 1st, 2nd attestation, and final.
+     */
 }
