@@ -1,213 +1,54 @@
 package intranet;
 
+import java.util.Vector;
 
-/**
-* @generated
-*/
 public class Request {
     
-    /**
-    * @generated
-    */
-    private Vector<Request> requests;
+	public String header;
+	public String definition;
+	public User sender;
+	public User recipient;
+	public boolean signedByDean;
+	public boolean signedByRector;
     
-    /**
-    * @generated
-    */
-    private String header;
+	public Request() {
+		
+	}
+	
+	public Request(String header, String definition, User sender, User recipient) {
+		this.header = header;
+		this.definition = definition;
+		this.sender = sender;
+		this.recipient = recipient;
+	}
+	
+	public Request(String header, String definition, User sender, User recipient, 
+			boolean signedByDean, boolean signedByRector) {
+		this(header, definition, sender, recipient);
+		this.signedByDean = signedByDean;
+		this.signedByRector = signedByRector;
+	}
+	
     
-    /**
-    * @generated
-    */
-    private String definition;
-    
-    /**
-    * @generated
-    */
-    private BasicUser sender;
-    
-    /**
-    * @generated
-    */
-    private  attribute;
-    
-    /**
-    * @generated
-    */
-    private BasicUser recipient;
-    
-    /**
-    * @generated
-    */
-    private boolean signedByDean;
-    
-    /**
-    * @generated
-    */
-    private boolean signedByRector;
-    
-    
-    /**
-    * @generated
-    */
-    private Database database;
-    
-    
-
-    /**
-    * @generated
-    */
-    private Vector<Request> getRequests() {
-        return this.requests;
-    }
-    
-    /**
-    * @generated
-    */
-    private Vector<Request> setRequests(Vector<Request> requests) {
-        this.requests = requests;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public String getHeader() {
-        return this.header;
-    }
-    
-    /**
-    * @generated
-    */
-    public String setHeader(String header) {
-        this.header = header;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public String getDefinition() {
-        return this.definition;
-    }
-    
-    /**
-    * @generated
-    */
-    public String setDefinition(String definition) {
-        this.definition = definition;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public BasicUser getSender() {
-        return this.sender;
-    }
-    
-    /**
-    * @generated
-    */
-    public BasicUser setSender(BasicUser sender) {
-        this.sender = sender;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public  getAttribute() {
-        return this.attribute;
-    }
-    
-    /**
-    * @generated
-    */
-    public  setAttribute(invalid attribute) {
-        this.attribute = attribute;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public BasicUser getRecipient() {
-        return this.recipient;
-    }
-    
-    /**
-    * @generated
-    */
-    public BasicUser setRecipient(BasicUser recipient) {
-        this.recipient = recipient;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public boolean getSignedByDean() {
-        return this.signedByDean;
-    }
-    
-    /**
-    * @generated
-    */
-    public boolean setSignedByDean(Boolean signedByDean) {
-        this.signedByDean = signedByDean;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public boolean getSignedByRector() {
-        return this.signedByRector;
-    }
-    
-    /**
-    * @generated
-    */
-    public boolean setSignedByRector(Boolean signedByRector) {
-        this.signedByRector = signedByRector;
-    }
-    
-    
-    
-    /**
-    * @generated
-    */
-    public Database getDatabase() {
-        return this.database;
-    }
-    
-    /**
-    * @generated
-    */
-    public Database setDatabase(Database database) {
-        this.database = database;
-    }
-    
-    
-    
-
     //                          Operations                                  
     
-    /**
-    * @generated
-    */
-    public boolean sign() {
-        //TODO
-        return false;
+    public boolean sign(User deanOrRector, boolean isAccepted) {
+    	if (deanOrRector instanceof Manager) {
+    		Manager dr = (Manager)deanOrRector;
+    		if (dr.type == ManagerTypes.DEAN) {
+    			this.signedByDean = isAccepted;
+    			return isAccepted;
+    		}
+    		else if (dr.type == ManagerTypes.RECTOR) {
+    			this.signedByRector = isAccepted;
+    			return isAccepted;
+    		}
+    	}
+    	return false;
     }
     
-    /**
-    * @generated
-    */
     public Vector<Request> getRequests() {
-        //TODO
-        return null;
+        return Database.requests;
     }
     
     

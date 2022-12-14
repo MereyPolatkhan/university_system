@@ -4,8 +4,6 @@ import java.util.Vector;
 
 public class Admin {
     private static Admin INSTANCE;
-    private Vector<User> users;
-    private Vector<String> lastActions;
 
 
     static {
@@ -28,26 +26,16 @@ public class Admin {
 
     //                          Operations                                  
 
-    boolean addUser(User user) {
-        try {
-            users.add(user);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Exception in inserting to users vector");
-        }
+    public boolean addUser(User user) {
+    	return Database.users.add(user);
     }
     
-    boolean removeUser(User user) {
-        try {
-            users.remove(user);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Exception in deleting from users vector");
-        }
+    public boolean removeUser(User user) {
+        return Database.users.remove(user);
     }
 
 	public Vector<String> getLastActions() {
-		return lastActions;
+		return Database.lastUserActions;
 	}
 
 }

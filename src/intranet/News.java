@@ -5,7 +5,6 @@ import java.util.*;
 
 public class News {
     
-    public static Vector<News> news;
    
     public String header;
     

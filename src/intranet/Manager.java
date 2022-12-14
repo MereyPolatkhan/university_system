@@ -43,13 +43,7 @@ public class Manager extends Employee implements ManageNews {
     }
     
     public boolean addCourseForRegistration(Course course) {
-        try {
-        	Database.courses.add(course);
-        	return true;
-        } catch (Exception e) {
-        	throw new RuntimeException("Exception in adding course for registration");
-        	return false;
-        }
+        return Database.registrationCourses.add(course);
     }
     
     public Report createStatisticalReport(Course course) {
@@ -87,7 +81,7 @@ public class Manager extends Employee implements ManageNews {
         return copiedForSorting;
     }
     
-    public Vector<Request> viewRequests() {
+    public Vector<Request> viewSignedRequests() {
         Vector<Request> signed = new Vector<Request>();
         for (Request request: Database.requests) {
         	if (request.signedByDean == true || request.signedByRector == true) {
@@ -97,9 +91,42 @@ public class Manager extends Employee implements ManageNews {
         return signed;
     }
     
-    public boolean assignCourseToTeachers() {
-        //TODO
-        return false;
-    }    
+    public boolean assignCoursesToTeachers(Vector<Course> courses, Vector<Teacher> teachers) {
+    	boolean isAtLeastOneCourseAdded= true;
+    	
+        for (Teacher teacher: teachers) {
+        	isAtLeastOneCourseAdded = teacher.courses.addAll(courses);
+        }
+        
+        return isAtLeastOneCourseAdded;
+    }
+
+	@Override
+	public boolean addNews(News news) {
+		return Database.news.add(news);
+	}
+
+	@Override
+	public boolean deleteNews(News news) {
+		return Database.news.remove(news);
+	}
+
+	@Override
+	public boolean editNews(News oldNews, News newNews) {
+		if (Database.news.remove(oldNews)) {
+			return Database.news.add(newNews);
+		}
+		return false;
+	} 
     
 }
+
+
+
+
+
+
+
+
+
+
