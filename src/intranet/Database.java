@@ -1,6 +1,6 @@
 package intranet;
 
-import java.util.Vector;
+import java.util.*;
 
 public class Database {
 
@@ -15,7 +15,8 @@ public class Database {
 	public static Vector<Course> registrationCourses;
 	public static Vector<User> users;
 	public static Vector<String> lastUserActions;
-	
+	public static HashSet<Book> books;
+	public static HashMap<User, Vector<Book>> borrowedBooks;
 	
 	static {
 		try {

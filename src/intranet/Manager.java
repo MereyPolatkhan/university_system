@@ -14,8 +14,13 @@ public class Manager extends Employee implements ManageNews {
 		super(user);
     }
     
-    public Manager(User user, ManagerTypes type, Department department) {
+    public Manager(User user, double salary) {
     	super(user);
+    	this.setSalary(salary);
+    }
+    
+    public Manager(User user, double salary, ManagerTypes type, Department department) {
+    	this(user, salary);
     	this.type = type;
     	this.department = department;
     }

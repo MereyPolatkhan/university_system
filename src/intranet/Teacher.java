@@ -21,15 +21,20 @@ public class Teacher extends Employee {
     	super(user);
     }
     
-    public Teacher(User user, Department department, TeacherLevel teacherLevel, double teacherRate) {
+    public Teacher(User user, double salary) {
     	super(user);
+    	this.setSalary(salary);
+    } 
+    
+    public Teacher(User user, double salary, Department department, TeacherLevel teacherLevel, double teacherRate) {
+    	this(user, salary);
     	this.department = department;
     	this.teacherLevel = teacherLevel;
     	this.teacherRate = teacherRate;
     } 
     
-    public Teacher(User user, Department department, TeacherLevel teacherLevel, double teacherRate, Vector<Course> courses) {
-    	this(user, department, teacherLevel, teacherRate);
+    public Teacher(User user, double salary, Department department, TeacherLevel teacherLevel, double teacherRate, Vector<Course> courses) {
+    	this(user, salary, department, teacherLevel, teacherRate);
     	this.courses = courses;
     } 
     
