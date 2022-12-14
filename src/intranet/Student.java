@@ -51,7 +51,7 @@ public class Student extends UserDecorator {
         	new RequestFromStudent("Register for course", definition, this);
         	return true;
     	} catch (Exception e) {
-    		throw new RuntimeException("Exception in putting mark");
+    		throw new RuntimeException("Exception in registration for course");
     	}
     	  // Student creates request and add to requests Vector (send to Manager)
     	  // Request constructor / Request(String header, String definition, BasicUser sender)
@@ -84,7 +84,7 @@ public class Student extends UserDecorator {
     			teacher.setTeacherRate(rate);
         	return true;
     	} catch (Exception e) {
-    		throw new RuntimeException("Exception in putting mark");
+    		throw new RuntimeException("Exception in rating teacher");
     	}
     }
   
