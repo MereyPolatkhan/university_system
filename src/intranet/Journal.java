@@ -1,78 +1,20 @@
 package intranet;
 
-
-/**
-* @generated
-*/
-public class Journal {
+public class Journal{
+	
+    public Period period;
     
-    /**
-    * @generated
-    */
-    private Period period;
-    
-    /**
-    * @generated
-    */
-    private Map<Course, Mark> courses;
-    
-    
-    /**
-    * @generated
-    */
-    private Transcript transcript;
-    
-    
-
-    /**
-    * @generated
-    */
     public Period getPeriod() {
         return this.period;
     }
-    
-    /**
-    * @generated
-    */
-    public Period setPeriod(Period period) {
+
+    public void setPeriod(Period period) {
         this.period = period;
     }
     
-    
-    /**
-    * @generated
-    */
-    public Map<Course, Mark> getCourses() {
-        return this.courses;
+    public Double showTotal() {
+    	// sum of mark ??
+    	return 0.0;
     }
-    
-    /**
-    * @generated
-    */
-    public Map<Course, Mark> setCourses(Map<Course, Mark> courses) {
-        this.courses = courses;
-    }
-    
-    
-    
-    /**
-    * @generated
-    */
-    public Transcript getTranscript() {
-        return this.transcript;
-    }
-    
-    /**
-    * @generated
-    */
-    public Transcript setTranscript(Transcript transcript) {
-        this.transcript = transcript;
-    }
-    
-    
-    
-
-    //                          Operations                                  
-    
-    
+	
 }
