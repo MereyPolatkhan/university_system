@@ -2,6 +2,8 @@ package Model;
 
 import java.util.*;
 
+import Config.Database;
+
 
 public class Course {
 	public String courseName;
@@ -56,7 +58,7 @@ public class Course {
     
     public Vector<Student> getStudents() {
     	Vector<Student> courseStudents = new Vector<Student>();
-    	for (Student student: Database.students) {
+    	for (Student student: Database.getStudentsFromDB()) {
     		if (student.getCoursesMarks().containsKey(this)) {
     			courseStudents.add(student);
     		}
@@ -66,7 +68,7 @@ public class Course {
 
     public Vector<Teacher> getTeachers() {
     	Vector<Teacher> courseTeachers = new Vector<Teacher>();
-    	for (Teacher teacher: Database.teachers) {
+    	for (Teacher teacher: Database.getTeachersFromDB()) {
     		if (teacher.courses.contains(this)) {
     			courseTeachers.add(teacher);
     		}

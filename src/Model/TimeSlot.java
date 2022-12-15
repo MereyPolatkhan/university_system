@@ -1,114 +1,18 @@
 package Model;
 
+import java.time.LocalTime;
 
-/**
-* @generated
-*/
 public class TimeSlot {
-    
-    /**
-    * @generated
-    */
-    private WeekDay day;
-    
-    /**
-    * @generated
-    */
-    private Time begin;
-    
-    /**
-    * @generated
-    */
-    private Time end;
-    
-    
-    /**
-    * @generated
-    */
-    private Lesson lesson;
-    
-    /**
-    * @generated
-    */
-    private Time time;
-    
-    
+	public WeekDay day;
+	public LocalTime begin;
+	public LocalTime end;
+	
+	public TimeSlot() {}
 
-    /**
-    * @generated
-    */
-    public WeekDay getDay() {
-        return this.day;
-    }
-    
-    /**
-    * @generated
-    */
-    public WeekDay setDay(WeekDay day) {
-        this.day = day;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public Time getBegin() {
-        return this.begin;
-    }
-    
-    /**
-    * @generated
-    */
-    public Time setBegin(Time begin) {
-        this.begin = begin;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public Time getEnd() {
-        return this.end;
-    }
-    
-    /**
-    * @generated
-    */
-    public Time setEnd(Time end) {
-        this.end = end;
-    }
-    
-    
-    
-    /**
-    * @generated
-    */
-    public Lesson getLesson() {
-        return this.lesson;
-    }
-    
-    /**
-    * @generated
-    */
-    public Lesson setLesson(Lesson lesson) {
-        this.lesson = lesson;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public Time getTime() {
-        return this.time;
-    }
-    
-    /**
-    * @generated
-    */
-    public Time setTime(Time time) {
-        this.time = time;
-    }
-    
-    
-    
+	public TimeSlot(WeekDay day, LocalTime begin, LocalTime end) {
+		this.day = day;
+		this.begin = begin;
+		this.end = end;
+	}
+		
 }

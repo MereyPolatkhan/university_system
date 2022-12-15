@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
 
+import Config.Database;
+
 public class Manager extends Employee implements ManageNews {
 
     public ManagerTypes type;    
@@ -64,9 +66,9 @@ public class Manager extends Employee implements ManageNews {
     }
     
     public Vector<Student> viewInfoAboutStudents(HowToSort howToSort) {
-    	Vector<Student> copiedForSorting = (Vector<Student>) Database.students.clone();
+    	Vector<Student> copiedForSorting = (Vector<Student>) Database.getStudentsFromDB().clone();
         if (howToSort == HowToSort.ALPHABETICALLY) {
-        	Collections.sort(copiedForSorting, new AlphabeticallyComparator());
+        	Collections.sort(copiedForSorting, new StudentYearComparator());
         }
         else if (howToSort == HowToSort.GPA) {
         	Collections.sort(copiedForSorting, new GPAComparator());
@@ -76,7 +78,7 @@ public class Manager extends Employee implements ManageNews {
     }
     
     public Vector<Teacher> viewInfoAboutTeachers(HowToSort howToSort) {
-    	Vector<Teacher> copiedForSorting = (Vector<Teacher>) Database.teachers.clone();
+    	Vector<Teacher> copiedForSorting = (Vector<Teacher>) Database.getTeachersFromDB().clone();
         if (howToSort == HowToSort.RATE) {
         	Collections.sort(copiedForSorting, new RateComparator());
         }

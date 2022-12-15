@@ -6,4 +6,6 @@ public interface User {
 	boolean authenticate();
 	void writeCommentInNews(String text, News news);
 	Vector<News> viewNews();
+	getPassword();
+	getLogin();
 }

@@ -1,23 +1,31 @@
-<<<<<<< HEAD:src/Model/Organization.java
 package Model;
-=======
-package intranet;
-import java.util.Vector;
->>>>>>> fa50f5481524df74d05be5f52cd93c40dc96e12d:src/intranet/Organization.java
+
+import java.util.*;
 
 public class Organization {
-    
-	public Vector<Organization> organizations;
-    
 	public String name ;
     
-	public Student head;
-    
+	public Student head; 
 	public Vector<User> members;
-    
+   
 	public String instagramAccLink;
-
 	public String telegramAccLink;
 	
-	//                                 Operations
+	public Organization() {}
+	
+	public Organization(String name) {
+		this.name = name;
+	}
+	
+	public Organization(String name, Student head, 
+			Vector<User> members, 
+			String instagramAccLink,
+			String telegramAccLink) {
+		this.name = name;
+		this.head = head;
+		this.members = members;
+		this.instagramAccLink = instagramAccLink;
+		this.telegramAccLink = telegramAccLink;
+	}	
+
 }

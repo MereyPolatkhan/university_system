@@ -2,6 +2,8 @@ package Model;
 
 import java.util.Vector;
 
+import Config.Database;
+
 public class ResearcherDecorator extends UserDecorator implements Researcher {
 	
 	protected Researcher researcher;

@@ -2,6 +2,8 @@ package Model;
 
 import java.util.Vector;
 
+import Config.Database;
+
 public class BasicUser implements User {
     
     public String fullName;
@@ -28,16 +30,7 @@ public class BasicUser implements User {
     //                          Operations
 
     public boolean authenticate() {
-        try {
-            Admin instance = Admin.getINSTANCE();
-            if (instance.addUser(this)) {
-                return true;
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Exception occured when getting INSTANCE of Admin");
-        }
-        return false;
+        return Admin.addUser(this);
 		
     }
     
@@ -48,7 +41,7 @@ public class BasicUser implements User {
     
 
     public Vector<News> viewNews() {
-        return News.news;
+        return Database.news;
     }
     
 }

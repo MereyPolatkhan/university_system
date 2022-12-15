@@ -1,41 +1,63 @@
 package Model;
 
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class Schedule {
-	
-	public int totalCredits;
 	public Vector<Course> courses;
-	Map<Course, Lesson> schedule;
-
-    public void generateSchedule() {// type need to be Schedule
-//    	this.courses.stream()
-//    	.sorted(new ComparatorCoursesByWeekDays);
-        for(Course course : courses) {
-        	
-        	Teacher t = course.getTeachers().stream()
-        			.filter(t->t.)
-        			;
-        	//print all possible lessons
-        	course.allPossibleLessons.toString();
-        	
-        	//student enter/select time and teacher
-        	//check if there another course at that time
-        	if(course.allPossibleLessons) // ???
-        	
-        	//save schedule in a collection / Vector<Vector<Course>> schedule(7);
-        }
-    }
-    
-    // add some fields to Course class:
-    // 	• all possible lessons
-
+	
+	public Schedule(Vector<Course> courses) {
+		this.courses = courses;
+	}
+	
+	public void generateSchedule() {
+		Map<Date, Lesson> allLessons = new HashMap<Date, Lesson>() ;
+		
+		for (Course course: courses) {
+			for (Map.Entry<Date, Lesson> entry: course.lessons.entrySet()) {
+				Date Date = entry.getKey();
+				Lesson lesson = entry.getValue();
+				allLessons.put(Date, lesson);
+			}
+		}
+		
+		Vector<Lesson> mondayLessons = new Vector<Lesson>();
+		Vector<Lesson> tuesdayLessons = new Vector<Lesson>();
+		Vector<Lesson> wednesdayLessons = new Vector<Lesson>();
+		Vector<Lesson> thursdayLessons = new Vector<Lesson>();
+		Vector<Lesson> fridayLessons = new Vector<Lesson>();
+		Vector<Lesson> saturdayLessons = new Vector<Lesson>();
+		Vector<Lesson> sundayLessons = new Vector<Lesson>();
+		
+		for (Map.Entry<Date, Lesson> entry: allLessons.entrySet()) {
+			Date wd = entry.getKey();
+			Lesson lesson = entry.getValue();
+			if (wd.day == WeekDay.MON) {
+				mondayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.TUE) {
+				tuesdayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.WED) {
+				wednesdayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.THUR) {
+				thursdayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.FRI) {
+				fridayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.SAT) {
+				saturdayLessons.add(lesson);
+			}
+			else if (wd.day == WeekDay.SUN) {
+				sundayLessons.add(lesson);
+			}
+		}
+		
+		System.out.println("MONDAY LESSONS: ");
+		for (Lesson lesson: mondayLessons) {
+			System.out.println();
+		}
+		
+	}
 }
-
-/*
- * class Course{
- * public Map<Teacher, Lesson> allPossibleLessons;
- * }
- */
-

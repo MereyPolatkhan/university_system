@@ -2,6 +2,8 @@ package Model;
 
 import java.util.Vector;
 
+import Config.Database;
+
 public class Admin extends Employee{
 
 	public Admin(User user) {
@@ -14,15 +16,15 @@ public class Admin extends Employee{
 
 	//                          Operations                                  
 
-    public boolean addUser(User user) {
+    public static boolean addUser(User user) {
     	return Database.users.add(user);
     }
     
-    public boolean removeUser(User user) {
+    public static boolean removeUser(User user) {
         return Database.users.remove(user);
     }
 
-	public Vector<String> getLastActions() {
+	public static  Vector<String> getLastActions() {
 		return Database.lastUserActions;
 	}
 

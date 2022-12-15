@@ -2,8 +2,9 @@ package Model;
 
 import java.util.*;
 
+import Config.*;
+
 public class Student extends UserDecorator {
-	
 	private Map<Course, Mark> coursesMarks;
     public Period period;
     private Transcript transcrcipt;
@@ -14,7 +15,6 @@ public class Student extends UserDecorator {
     public Speciality studentSpeciality;
     private int scholarship;
     private Schedule schedule;
-    public double generalGPA;
     
     
     public Student(User user) {
@@ -96,6 +96,14 @@ public class Student extends UserDecorator {
     	 return DiplomaProjects.projects.add(d);
     }
 	
+    public double getGeneralGPA() {
+    	double gpa = 0;
+    	for (Map.Entry<Course, Mark> entry: coursesMarks.entrySet()) {
+    		gpa += entry.getValue().getTotal().getGpa();
+    	}
+    	return gpa / coursesMarks.size();
+    }
+    
     /*
      *  done + o Students can not have more than 21 credits
 		o Students can not fail more than 3 times
