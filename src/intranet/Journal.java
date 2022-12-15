@@ -1,20 +1,14 @@
 package intranet;
 
+import java.util.HashMap;
+
 public class Journal{
 	
     public Period period;
+    HashMap<Course, Mark> courses;
     
-    public Period getPeriod() {
-        return this.period;
-    }
-
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
-    
-    public Double showTotal() {
-    	// sum of mark ??
-    	return 0.0;
+    public Double showTotal(Course course) {
+    	return courses.get(course).digitGrade;
     }
 	
 }
