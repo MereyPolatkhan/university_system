@@ -1,4 +1,4 @@
-package intranet;
+package pr2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +27,10 @@ public class Student extends UserDecorator {
     	return schedule;
     }
     
+    public HashMap<Course, Mark> getCurrentCoursesMarks() {
+    	return currentCoursesMarks;
+    }
+    
     public void setMark(Course course, Mark mark) {
     	currentCoursesMarks.put(course, mark);
     } 
@@ -47,15 +51,12 @@ public class Student extends UserDecorator {
 
     public boolean registerCourse(Course course) {
     	try {
-    		String definition = "Course name " + course.getCourseName();
+    		String definition = "Course name " + course.courseName;
         	new RequestFromStudent("Register for course", definition, this);
         	return true;
     	} catch (Exception e) {
     		throw new RuntimeException("Exception in putting mark");
     	}
-    	  // Student creates request and add to requests Vector (send to Manager)
-    	  // Request constructor / Request(String header, String definition, BasicUser sender)
-    	  // But now we cannot convert Student to BasicUser, so I create subclass RequestFromStudent
     }
     
     public Vector<Teacher> getTeacherInfo(Course course) {
@@ -67,15 +68,11 @@ public class Student extends UserDecorator {
     }
     
     public Transcript viewTranscript() {
-        //TODO
         return transcrcipt;
     }
   
 	public Vector<Course> viewCourses() {
 		return schedule.courses;
-//    	  return Datebase.courses.stream()
-//    		    	.filter(c->c.equals(currentCoursesMarks.keySet()))
-//    		    	.collect(Collectors.toCollection(Vector::new));
     }
 
     public boolean rateTeacher(Teacher teacher, Double rate) {
@@ -97,11 +94,5 @@ public class Student extends UserDecorator {
     	 DiplomaProjects.projects.add(d);
     	 return true;
     }
-	
-    /*
-     * o Students can not have more than 21 credits
-		o Students can not fail more than 3 times
-		o FIT Students can not have FOGI courses (only as electives)
-		o Mark consists of 1st, 2nd attestation, and final.
-     */
 }
+
