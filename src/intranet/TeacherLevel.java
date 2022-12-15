@@ -1,5 +1,0 @@
-package intranet;
-
-public enum TeacherLevel {
-	TUTOR, SENIOR_LECTURER, LECTURER, ASSISTANT_PROFESSOR, ASSOCIATE_PROFESSOR, PROFESSOR; 
-}
