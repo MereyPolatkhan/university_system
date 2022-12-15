@@ -2,10 +2,8 @@ package Model;
 
 import java.util.Vector;
 
-/**
-* @generated
-*/
 public class Transcript {
+<<<<<<< HEAD:src/Model/Transcript.java
     
     /**
     * @generated
@@ -29,67 +27,27 @@ public class Transcript {
     private Journal journal;
     
     
+=======
+	
+	public int numberOfFailedCourses;
+	public Vector<Journal> journals;
+	
+	public Transcript(){
+		numberOfFailedCourses = 0;
+	}
+	
+	public Transcript(Vector<Journal> journals){
+		this();
+		this.journals = journals;
+	}
+	
+	{
+	if(numberOfFailedCourses >= 3)
+		leaveUniversity();
+	}
+>>>>>>> fa50f5481524df74d05be5f52cd93c40dc96e12d:src/intranet/Transcript.java
 
-    /**
-    * @generated
-    */
-    public Vector<Journal> getJournals() {
-        return this.journals;
-    }
-    
-    /**
-    * @generated
-    */
-    public Vector<Journal> setJournals(Vector<Journal> journals) {
-        this.journals = journals;
-    }
-    
-    
-    
-    /**
-    * @generated
-    */
-    public Journal getJournal() {
-        return this.journal;
-    }
-    
-    /**
-    * @generated
-    */
-    public Journal setJournal(Journal journal) {
-        this.journal = journal;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public Student getStudent() {
-        return this.student;
-    }
-    
-    /**
-    * @generated
-    */
-    public Student setStudent(Student student) {
-        this.student = student;
-    }
-    
-    
-    /**
-    * @generated
-    */
-    public Database getDatabase() {
-        return this.database;
-    }
-    
-    /**
-    * @generated
-    */
-    public Database setDatabase(Database database) {
-        this.database = database;
-    }
-    
-    
-    
+	private void leaveUniversity() {
+		//removeUser?
+	}
 }
