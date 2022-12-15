@@ -1,66 +1,41 @@
 package intranet;
 
+import java.util.Map;
+import java.util.Vector;
 
-/**
-* @generated
-*/
 public class Schedule {
-    
-    /**
-    * @generated
-    */
-    private Vector<Course> courses;
-    
-    
-    /**
-    * @generated
-    */
-    private Student student;
-    
-    
+	
+	public int totalCredits;
+	public Vector<Course> courses;
+	Map<Course, Lesson> schedule;
 
-    /**
-    * @generated
-    */
-    public Vector<Course> getCourses() {
-        return this.courses;
+    public void generateSchedule() {// type need to be Schedule
+//    	this.courses.stream()
+//    	.sorted(new ComparatorCoursesByWeekDays);
+        for(Course course : courses) {
+        	
+        	Teacher t = course.getTeachers().stream()
+        			.filter(t->t.)
+        			;
+        	//print all possible lessons
+        	course.allPossibleLessons.toString();
+        	
+        	//student enter/select time and teacher
+        	//check if there another course at that time
+        	if(course.allPossibleLessons) // ???
+        	
+        	//save schedule in a collection / Vector<Vector<Course>> schedule(7);
+        }
     }
     
-    /**
-    * @generated
-    */
-    public Vector<Course> setCourses(Vector<Course> courses) {
-        this.courses = courses;
-    }
-    
-    
-    
-    /**
-    * @generated
-    */
-    public Student getStudent() {
-        return this.student;
-    }
-    
-    /**
-    * @generated
-    */
-    public Student setStudent(Student student) {
-        this.student = student;
-    }
-    
-    
-    
+    // add some fields to Course class:
+    // 	• all possible lessons
 
-    //                          Operations                                  
-    
-    /**
-    * @generated
-    */
-    public Schedule generateSchedule() {
-        //TODO
-        return null;
-    }
-    
-    
 }
+
+/*
+ * class Course{
+ * public Map<Teacher, Lesson> allPossibleLessons;
+ * }
+ */
+
