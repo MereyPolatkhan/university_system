@@ -46,6 +46,34 @@ public class Mark {
 	}
 
 	
+	public String toString() {
+		return "Mark: 1st :" +  firstAtt + ", 2nd att: " + secondAtt + ", final: " + finalAtt;  
+	}
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		
+	}
+	
+	public int hashCode() {
+		
+	}
+	
+	public int compareTo() {
+		
+	}
+	public Object clone() throws CloneNotSupportedException {
+		
+	}
+	
 	
 
 }

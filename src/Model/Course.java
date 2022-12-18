@@ -77,4 +77,79 @@ public class Course {
     }
     
     
+	public String toString() {
+		return "Course: name: " + courseName + ", code: " + code + 
+				", credits" + credits + ", prerequisites: " + prerequisites + 
+				", ects: " + ects + ", department: " + department + 
+				", intended specialty: " + intendedSpeciality + 
+				", info: " + info + 
+				", elective type: " + type;
+	}
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		Course c = (Course)o;
+		return 
+				c.code == this.code &&
+				c.credits == this.credits &&
+				c.ects == this.ects &&
+				c.type == this.type && 
+				c.courseName.equals(this.courseName)&&
+				c.department.equals(this.department) && 
+				c.intendedSpeciality.equals(this.intendedSpeciality)&& 
+				c.info.equals(this.info) && 
+				c.prerequisites.equals(this.prerequisites )&&
+				c.lessons.equals(this.lessons);
+	}
+	
+	public int hashCode() {
+		return Objects.hash(courseName, code, credits, 
+				prerequisites, ects, department, intendedSpeciality,
+				info, type, lessons);
+	}
+	
+	public int compareTo(Course c) {
+		if (this.code < c.code) {
+			return -1;
+		}
+		else if (this.code > c.code) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		Course newCourse = new Course();
+		newCourse.courseName = this.courseName;
+		newCourse.code = this.code;
+		newCourse.credits = this.credits;
+		
+		Vector<Course> newPrereqs = new Vector<Course>();
+		for (Course c: this.prerequisites) { 
+			newPrereqs.add((Course) c.clone());
+		}
+		newCourse.prerequisites = newPrereqs;
+		newCourse.ects = this.ects;
+		newCourse.department = (Department) this.department.clone();
+		newCourse.intendedSpeciality = (Speciality) this.intendedSpeciality.clone();
+		newCourse.info = this.info;
+		newCourse.type = this.type;
+		
+		Map<Date, Lesson> newLessons = new HashMap<Date, Lesson>();
+		for (Map.Entry<Date, Lesson> entry: this.lessons.entrySet()) {
+			newLessons.put((Date)entry.getKey(), (Lesson)entry.getValue());
+		}
+		newCourse.lessons = newLessons;
+		return newCourse;
+	}
+    
+    
 }

@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Vector;
 
 import Config.Database;
@@ -21,8 +22,25 @@ public class Manager extends Employee implements ManageNews {
     	this.setSalary(salary);
     }
     
-    public Manager(User user, double salary, ManagerTypes type, Department department) {
-    	this(user, salary);
+    public Manager(User user, String firstLastName) {
+    	super(user, firstLastName);
+    }
+    
+    
+    public Manager(User user, String firstLastName, double salary) {
+    	super(user, firstLastName, salary);
+    }
+    
+    public Manager(User user, String firstLastName, String password)  {
+    	super(user, firstLastName, password);
+    }
+    
+    public Manager(User user, String firstLastName, String login, String password)  {
+    	super(user, firstLastName, login, password);
+    }
+    
+    public Manager(User user, String firstLastName, double salary, ManagerTypes type, Department department) {
+    	this(user, firstLastName, salary);
     	this.type = type;
     	this.department = department;
     }
@@ -125,6 +143,33 @@ public class Manager extends Employee implements ManageNews {
 		}
 		return false;
 	} 
+	
+	
+    
+    public String toString() {
+    	return "Manager: " + super.toString() + ", type: " + type + ", department: " + department;
+    }
+    
+    public boolean equals(Object o) {
+    	if (!super.equals(o)) {
+    		return false;
+    	}
+    	
+    	Manager manager = (Manager)o;
+    	return manager.type == this.type && manager.department == this.department;
+    }
+    
+    public int hashCode() {
+    	return super.hashCode() + Objects.hash(type, department);
+    }
+    
+    
+    public Object clone() throws CloneNotSupportedException {
+    	Manager newMan = new Manager(user);
+    	newMan.type = this.type;
+    	newMan.department = (Department)this.department.clone();
+    	return newMan;
+    }
     
 }
 

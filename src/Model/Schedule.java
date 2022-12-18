@@ -57,7 +57,37 @@ public class Schedule {
 		System.out.println("MONDAY LESSONS: ");
 		for (Lesson lesson: mondayLessons) {
 			System.out.println();
+		}	
+	}
+	
+	
+	
+	
+	public String toString() {
+		
+	}
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
 		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		
+	}
+	
+	public int hashCode() {
+		
+	}
+	
+	public int compareTo() {
+		
+	}
+	public Object clone() throws CloneNotSupportedException {
 		
 	}
 }

@@ -2,34 +2,40 @@ package Model;
 
 import java.util.*;
 
+
 import Config.*;
 
 public class Student extends UserDecorator {
-	private Map<Course, Mark> coursesMarks;
+	private Map<Course, Mark> coursesMarks = new HashMap<Course, Mark>();
     public Period period;
-    private Transcript transcrcipt;
+    private Transcript transcript;
     public Organization organization;
     public StudentLevel level;
     public int year;
     public Department department;
-    public Speciality studentSpeciality;
+    public Speciality speciality;
     private int scholarship;
     private Schedule schedule;
     
+
     
     public Student(User user) {
     	super(user);
     }
     
-    
-    public Student(User user,
+    public Student(User user, String firstLastName, 
+    		String login, String password,
     		StudentLevel level, int year, 
-    		Department department, Speciality studentSpeciality) {    
-    	super(user);
+    		Department department, Speciality speciality) {    
+    	super(user, firstLastName, login, password);
     	this.level = level;
     	this.year = year;
     	this.department = department;
-    	this.studentSpeciality = studentSpeciality;
+    	this.speciality = speciality;
+    	if (level == StudentLevel.PhD) super.isResearcher = true;
+    	else super.isResearcher = false;
+    	
+    	
     } 
 
     public int getScholarship() {
@@ -45,7 +51,7 @@ public class Student extends UserDecorator {
     }
     
     public Transcript getTranscript() {
-		return transcrcipt;
+		return transcript;
     }
     
     //                          Operations                                  
@@ -110,4 +116,78 @@ public class Student extends UserDecorator {
 		o FIT Students can not have FOGI courses (only as electives)
 		done + o Mark consists of 1st, 2nd attestation, and final.
      */
+    
+    public String toString() {
+    	return "Student: " + super.toString() + ", period: " + period + ", organization: " 
+    				+ organization + ", level: " + level + ", year: " + year 
+    				+ ", department: " + department + ", speciality: "  + speciality;
+    }
+    
+    
+    
+    public boolean equals(Object o) {
+    	if (!super.equals(o)) {
+    		return false;
+    	}
+    	Student student = (Student)o;
+    	
+    	return 
+    			student.year == this.year &&
+    			student.scholarship == this.scholarship && 
+    			student.level == this.level &&
+    			student.period == this.period &&
+    			student.transcript == this.transcript &&
+    			student.organization == this.organization &&
+    			student.department == this.department &&
+    			student.speciality == this.speciality &&
+    			student.schedule == this.schedule &&
+    			student.coursesMarks == this.coursesMarks;
+    }
+    
+    public int hashCode() {
+    	return super.hashCode() + 
+    			Objects.hash(coursesMarks, period, 
+    					transcript, organization, 
+    					level, year, 
+    					department, speciality,
+    					scholarship, schedule);
+    }
+    
+    public int compareTo(UserDecorator user) {
+    	if (super.compareTo(user) != 0) {
+    		return super.compareTo(user);
+    	}
+    	Student s = (Student) user;
+    	if (this.year < s.year) {
+    		return -1;
+    	}
+    	if (this.year > s.year) {
+    		return 1;
+    	}
+    	return 0;
+    }
+    
+    public Object clone() throws CloneNotSupportedException {
+    	Student newStudent = new Student(user);
+    	newStudent.period = (Period) this.period.clone();
+    	newStudent.transcript = (Transcript) this.transcript.clone();
+    	newStudent.organization = (Organization) this.organization.clone();
+    	newStudent.level = this.level;
+    	newStudent.year = this.year;
+    	newStudent.department = (Department)this.department.clone();
+    	newStudent.speciality = (Speciality)this.speciality.clone();
+    	newStudent.scholarship = this.scholarship;
+    	newStudent.schedule = (Schedule)this.schedule.clone();
+    	
+    	Map<Course, Mark> newCoursesMarks = new HashMap<Course, Mark>();
+    	
+    	for (Map.Entry<Course, Mark> entry: coursesMarks.entrySet()) {
+    		newCoursesMarks.put((Course)entry.getKey().clone(), (Mark)entry.getValue().clone());
+    	}
+    	newStudent.coursesMarks = newCoursesMarks;
+    	return newStudent;
+    }
+    
+    
+    
 }

@@ -3,7 +3,7 @@ package Model;
 import java.util.*;
 import java.util.Map.Entry;
 
-import Config.Database;
+import Config.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -19,6 +19,22 @@ public class Librarian extends Employee {
 		super(user, salary);
 	}
 
+    public Librarian(User user, String firstLastName) {
+    	super(user, firstLastName);
+    }
+    
+    public Librarian(User user, String firstLastName, double salary) {
+    	super(user, firstLastName, salary);
+    }
+    
+    public Librarian(User user, String firstLastName, String password)  {
+    	super(user, firstLastName, password);
+    }
+    
+    public Librarian(User user, String firstLastName, String login, String password)  {
+    	super(user, firstLastName, login, password);
+    }
+    
     
     
     //                          Operations                   
@@ -79,6 +95,11 @@ public class Librarian extends Employee {
     		return true;
     	}
     	return false;
+    }
+    
+    
+    public String toString() {
+    	return "Librarian: " + super.toString();
     }
     
     

@@ -28,4 +28,31 @@ public class Organization {
 		this.telegramAccLink = telegramAccLink;
 	}	
 
+	public String toString() {
+		
+	}
+	
+	public boolean equals(Object o) {
+		
+	}
+	
+	public int hashCode() {
+		if (o == this) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		
+	}
+	
+	public int compareTo() {
+		
+	}
+	public Object clone() throws CloneNotSupportedException {
+		
+	}
 }

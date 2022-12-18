@@ -2,7 +2,9 @@ package Model;
 
 import java.util.Vector;
 
-import Config.Database;
+
+import Config.*;
+
 
 public class Request {
     

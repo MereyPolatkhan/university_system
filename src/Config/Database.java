@@ -1,32 +1,32 @@
 package Config;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.*;
 
 import Model.*;
 
-import java.time.LocalDate;
 public final class Database {
-	
-	// make serialization on Database.INSTANCE;
-	// сериализировать все векторы
-	// по поводу REGEX я думаю создать синглтон класс который как MATH class
-	// по остальным вопросам Пакита ответила и я записал у себя на draft paper;
-	// guess i need win and wish more energy for Pakite
+	public static Vector<Request> requests = new Vector<Request>();
+	public static Vector<News> news = new Vector<News>();
+	public static Vector<Course> registrationCourses = new Vector<Course>();
+	public static Vector<User> users = new Vector<User>();
+	public static Vector<String> lastUserActions = new Vector<String>();
+	public static HashMap<Book, Integer> booksInLibrary = new HashMap<Book, Integer>();
+	public static HashMap<User, Map<LocalDate, Book>> borrowedBooks = new HashMap<User, Map<LocalDate, Book>>();
+	public static Vector<String> allResearchPapers = new Vector<String>();
+	public static Vector<String> allResearchProjects = new Vector<String>();
+	public static Vector<Organization> organizations = new Vector<Organization>();
+	public static Vector<Department> depatments = new Vector<Department>();
 
 	private final static String BASE_PATH = "C:\\Users\\USER\\eclipse-workspace\\FinalProject\\Database\\";
-	private String path;
 	private static Database INSTANCE;
-	
-    public static Vector<Request> requests;
-	public static Vector<News> news;
-	public static Vector<Course> registrationCourses;
-	public static Vector<User> users;
-	public static Vector<String> lastUserActions;
-	public static HashMap<Book, Integer> booksInLibrary;
-	public static HashMap<User, Map<LocalDate, Book>> borrowedBooks;
-	public static Vector<String> researchPapers;
-	public static Vector<String> researchProjects;
-	public static Vector<Organization> organizations;
+	private String path;
 	
 	static {
 		try {
@@ -46,9 +46,9 @@ public final class Database {
 	}
     
 	public static Database getINSTANCE() {
-		if (INSTANCE == null) {
-			INSTANCE = new Database(BASE_PATH);
-		}
+//		if (INSTANCE == null) {
+//			INSTANCE = new Database(BASE_PATH);
+//		}
 		return INSTANCE;
 	}
 	
@@ -102,6 +102,16 @@ public final class Database {
 		return librarians;
 	}
 	
+	public static Vector<ResearcherDecorator> getResearchersFromDB() {
+		Vector<ResearcherDecorator> researchers = new Vector<ResearcherDecorator>();
+		for (User u: Database.users) {
+			if (u instanceof ResearcherDecorator) {
+				researchers.add((ResearcherDecorator)u);
+			}
+		}
+		return researchers;
+	}
+	
 	public static Vector<Employee> getEmployeeFromDB() {
 		Vector<Employee> employees = new Vector<Employee>();
 		for (User u: Database.users) {
@@ -111,5 +121,37 @@ public final class Database {
  		}
 		return employees;
 	}
-    
+	
+	public static void serialize() {
+		try (FileOutputStream fs = new FileOutputStream(Database.getINSTANCE().getPath() + "datas.txt")){                                
+			ObjectOutputStream oos = new ObjectOutputStream(fs);
+			oos.writeObject(Database.getINSTANCE());
+			oos.flush();
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public static void deserialize() {
+		try (FileInputStream fis = new FileInputStream(Database.getINSTANCE().getPath() + "datas.txt")) {
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			INSTANCE = (Database) ois.readObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Error with deserializing");
+	}
 }
+
+
+// make serialization on Database.INSTANCE;
+// сериализировать все векторы сразу
+// по поводу REGEX я думаю создать синглтон класс который как MATH class
+// по остальным вопросам Пакита ответила и я записал у себя на draft paper;
