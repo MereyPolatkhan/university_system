@@ -1,9 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class Department {
+public class Department  implements  Serializable{
+	public static Vector<Department> depatments = new Vector<Department>();
+
 	public String name;
     
 	public Vector<Speciality> specialities;

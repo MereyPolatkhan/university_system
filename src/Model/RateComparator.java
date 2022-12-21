@@ -1,18 +1,19 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class RateComparator implements Comparator<Object> {
+public class RateComparator implements Comparator<Object>, Serializable {
 
 	@Override
 	public int compare(Object o1, Object o2) {
 		Teacher t1 = (Teacher)o1;
 		Teacher t2 = (Teacher)o2;
 		
-		if (t1.computeTeacherRate()< t2.computeTeacherRate()) {
+		if (t1.getRateValue()< t2.getRateValue()) {
 			return -1;
 		}
-		else if (t1.computeTeacherRate() > t2.computeTeacherRate()) {
+		else if (t1.getRateValue() > t2.getRateValue()) {
 			return 1;
 		}
 		return 0;

@@ -1,7 +1,8 @@
 package Model;
 
+import java.io.Serializable;
 
-public class ServiceDesk {
+public class ServiceDesk implements Serializable {
     
     private int phoneNumber;
     

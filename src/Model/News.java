@@ -1,10 +1,11 @@
 package Model;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class News {
-    
+public class News implements Serializable {
+	public static Vector<News> news;
    
     public String header;
     

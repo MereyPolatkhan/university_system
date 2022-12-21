@@ -1,5 +1,7 @@
 package Model;
 
-public enum HowToSort {
-	GPA, ALPHABETICALLY, SALARY, RATE;
+import java.io.Serializable;
+
+public enum HowToSort implements Serializable {
+	GPA, YEAR, SALARY, RATE;
 }

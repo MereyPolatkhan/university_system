@@ -1,58 +1,53 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
 
 import Config.*;
 
-public class ResearcherDecorator extends UserDecorator {
-	public int hIndex;
-	public Vector<String> researchPapers;
-	public Vector<String> researchProjects;
-
+public class ResearcherDecorator extends UserDecorator implements Serializable {
 	
 	{
 		super.isResearcher = true;
+		super.researchPapers = new Vector<String>();
+		super.researchProjects = new Vector<String>();
 	}
 	
 	public ResearcherDecorator(User user) {
 		super(user);
+		
 	}
     
 	public ResearcherDecorator(User user, int hIndex) {
-		super(user);
-		this.hIndex = hIndex;
+		this(user);
+		super.hIndex = hIndex;
 	}
 	
-    public ResearcherDecorator(User user, String firstLastName, int hIndex) {
-    	super(user, firstLastName);
-    	this.hIndex = hIndex;
-    }
-    
-    public ResearcherDecorator(User user, String firstLastName) {
-    	super(user, firstLastName);
-    }
-
-    public ResearcherDecorator(User user, String firstLastName, String password, int hIndex) {
-    	super(user, firstLastName, password);
-    	this.hIndex = hIndex;
-    }
-    
-    public ResearcherDecorator(User user, String firstLastName, String login, String password, int hIndex) {
-    	super(user, firstLastName, login, password);
-    	this.hIndex = hIndex;
-    }
+	public boolean registerCourse(Course course) {
+		Student s = (Student)user;
+		return s.registerCourse(course);
+	}
+	
+//    public ResearcherDecorator(User user, String firstLastName, String login, String password, int hIndex) {
+//    	super(user, firstLastName, login, password);
+//    	this.hIndex = hIndex;
+//    }
     
     //                          Operations                                  
     	
 	
+	public boolean doResearch() {
+		System.out.println("Yes I can make research");
+		return true;
+	}
 	public boolean addResearchPaper(String paper) {
-		return Database.allResearchPapers.add(paper);
+		return researchPapers.add(paper);
 	}
 
 	public boolean addResearchProject(String project) {
-		return Database.allResearchPapers.add(project);
+		return researchPapers.add(project);
 	}    
 	
 	public String toString() {

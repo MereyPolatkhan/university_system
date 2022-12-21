@@ -2,6 +2,7 @@
 package Model;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Vector;
@@ -9,19 +10,24 @@ import java.util.Vector;
 
 import Config.*;
 
-public class BasicUser implements User, Comparable<BasicUser>, Cloneable {
+public class BasicUser implements User, Comparable<BasicUser>, Cloneable , Serializable{
     
     public String firstLastName;
     private int id;
     public String login;
     private long hashOfPassword;
-    public boolean isResearcher;
     public boolean loginStatus;
     private LocalDateTime registerDate;
 
+    public boolean isResearcher;
+    public int hIndex;
+    public Vector<String> researchPapers;
+    public Vector<String> researchProjects;
+    
 	private static int count = 0;
 	
 	{
+		hIndex = -1;
 		BasicUser.count++;
 		this.loginStatus = false;
 		this.isResearcher = false;
@@ -36,7 +42,7 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable {
     	this.firstLastName = firstLastName;
     	this.id = count;
     	this.login = generateDefaultLogin(firstLastName);
-    	this.setPassword(this.toString());
+    	this.setPassword("AnyPassword1");
     	this.registerDate = LocalDateTime.now();
     	
     }
@@ -79,8 +85,6 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable {
 	public LocalDateTime getRegisterDate() {
 		return registerDate;
 	}
-	
-    
     
     
     
@@ -168,7 +172,7 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable {
 
 	@Override
     public Vector<News> viewNews() {
-        return Database.news;
+        return News.news;
     }
 	
 	
@@ -223,6 +227,22 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable {
 		newUser.login = this.login;
 		newUser.registerDate = this.registerDate;
 		return newUser;
+	}
+
+	@Override
+	public boolean doResearch() {
+		System.out.println("Basic User who is not researcher cannot research");
+		return false;
+	}
+
+	@Override
+	public boolean addResearchPaper(String paper) {
+		return false;
+	}
+
+	@Override
+	public boolean addResearchProject(String project) {
+		return false;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package View;
 
-public class UserView {
+import java.io.Serializable;
+
+public class UserView implements Serializable{
 
 }

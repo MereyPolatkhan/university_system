@@ -1,5 +1,7 @@
 package Model;
 
-public enum ManagerTypes {
+import java.io.Serializable;
+
+public enum ManagerTypes implements Serializable{
 	OR, DEAN, RECTOR, FACULTY;
 }

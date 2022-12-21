@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class SalaryComparator implements Comparator<Object> {
+public class SalaryComparator implements Comparator<Object> , Serializable{
 
 	@Override
 	public int compare(Object o1, Object o2) {

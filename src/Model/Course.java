@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import Config.Database;
 
 
-public class Course {
+public class Course  implements Serializable{
 	public String courseName;
 	public int code;
 	public int credits;	
@@ -15,7 +16,7 @@ public class Course {
 	public Speciality intendedSpeciality;
 	public String info;
     public ElectiveCourseType type;
-    public Map<Date, Lesson> lessons;
+    public Set<Lesson> lessons;
 
     
     public Course() {}
@@ -41,7 +42,7 @@ public class Course {
     		Speciality intendedSpeciality, 
     		String info, 
     		ElectiveCourseType type, 
-    		Map<Date, Lesson> lessons) {
+    		Set<Lesson> lessons) {
     	
     	this(courseName, code, credits);
     	this.prerequisites = prerequisites;
@@ -79,11 +80,11 @@ public class Course {
     
 	public String toString() {
 		return "Course: name: " + courseName + ", code: " + code + 
-				", credits" + credits + ", prerequisites: " + prerequisites + 
+				", credits: " + credits + ", prerequisites: " + prerequisites + 
 				", ects: " + ects + ", department: " + department + 
 				", intended specialty: " + intendedSpeciality + 
 				", info: " + info + 
-				", elective type: " + type;
+				", elective type: " + type + " ";
 	}
 	
 	public boolean equals(Object o) {
@@ -106,7 +107,7 @@ public class Course {
 				c.department.equals(this.department) && 
 				c.intendedSpeciality.equals(this.intendedSpeciality)&& 
 				c.info.equals(this.info) && 
-				c.prerequisites.equals(this.prerequisites )&&
+				c.prerequisites.equals(this.prerequisites) &&
 				c.lessons.equals(this.lessons);
 	}
 	
@@ -143,9 +144,9 @@ public class Course {
 		newCourse.info = this.info;
 		newCourse.type = this.type;
 		
-		Map<Date, Lesson> newLessons = new HashMap<Date, Lesson>();
-		for (Map.Entry<Date, Lesson> entry: this.lessons.entrySet()) {
-			newLessons.put((Date)entry.getKey(), (Lesson)entry.getValue());
+		Set<Lesson> newLessons = new HashSet<Lesson>();
+		for (Lesson lesson: this.lessons) {
+			newLessons.add((Lesson) lesson.clone());
 		}
 		newCourse.lessons = newLessons;
 		return newCourse;

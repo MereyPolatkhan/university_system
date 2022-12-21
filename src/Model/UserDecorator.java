@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public abstract class UserDecorator extends BasicUser implements User {
+public abstract class UserDecorator extends BasicUser implements User, Serializable {
 
     protected User user;
     

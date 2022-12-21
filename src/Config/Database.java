@@ -1,56 +1,139 @@
 package Config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
 import Model.*;
 
-public final class Database {
-	public static Vector<Request> requests = new Vector<Request>();
-	public static Vector<News> news = new Vector<News>();
-	public static Vector<Course> registrationCourses = new Vector<Course>();
-	public static Vector<User> users = new Vector<User>();
-	public static Vector<String> lastUserActions = new Vector<String>();
-	public static HashMap<Book, Integer> booksInLibrary = new HashMap<Book, Integer>();
-	public static HashMap<User, Map<LocalDate, Book>> borrowedBooks = new HashMap<User, Map<LocalDate, Book>>();
-	public static Vector<String> allResearchPapers = new Vector<String>();
-	public static Vector<String> allResearchProjects = new Vector<String>();
-	public static Vector<Organization> organizations = new Vector<Organization>();
-	public static Vector<Department> depatments = new Vector<Department>();
+public class Database implements Serializable{
+	public static Vector<Course> registrationCourses;
+	public static Vector<User> users;
+	
 
 	private final static String BASE_PATH = "C:\\Users\\USER\\eclipse-workspace\\FinalProject\\Database\\";
 	private static Database INSTANCE;
-	private String path;
 	
+	
+
 	static {
-		try {
-			INSTANCE = new Database(BASE_PATH);
+		if (new File(BASE_PATH + "users.ser").exists()) {
+			try {
+				deserializeUsers();
+			} catch (Exception e) {
+				System.out.println("Error in serializing");
+				e.printStackTrace();
+			}
 		}
-		catch (Exception e) {
-			throw new RuntimeException("Exception occured in creating Singleton Database Instance");
+		else {
+			users = new Vector<User>();
 		}
+		
+		if (new File(BASE_PATH + "courses.ser").exists()) {
+			try {
+				deserializeCourses();
+			} catch (Exception e) {
+				System.out.println("Error in serializing");
+				e.printStackTrace();
+			}
+		}
+		else {
+			registrationCourses = new Vector<Course>();
+		}
+		
 	}
 	
-	private Database(String path) {
-		this.path = path;
-	}
+	private Database() {}
 	
-	public String getPath() {
-		return this.path;
-	}
-    
+	
 	public static Database getINSTANCE() {
-//		if (INSTANCE == null) {
-//			INSTANCE = new Database(BASE_PATH);
-//		}
+		if (INSTANCE == null) {
+			INSTANCE = new Database();
+		}
 		return INSTANCE;
 	}
+	
+	public static void serializeAll() {
+		serializeUsers();
+		serializeCourses();
+	}
+	
+	public static void serializeUsers() {
+		try {
+			FileOutputStream fos = new FileOutputStream(BASE_PATH + "users.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(Database.users);
+			fos.close();
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deserializeUsers() {
+		try {
+			FileInputStream fis = new FileInputStream(BASE_PATH + "users.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Database.users = (Vector<User>) ois.readObject();
+			fis.close();
+			ois.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void serializeCourses() {
+		try {
+			FileOutputStream fos = new FileOutputStream(BASE_PATH + "courses.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(Database.registrationCourses);
+			fos.close();
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deserializeCourses() {
+		try {
+			FileInputStream fis = new FileInputStream(BASE_PATH + "courses.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Database.registrationCourses = (Vector<Course>) ois.readObject();
+			fis.close();
+			ois.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	
 	public static Vector<Teacher> getTeachersFromDB() {
 		Vector<Teacher> teachers = new Vector<Teacher>();
@@ -122,32 +205,7 @@ public final class Database {
 		return employees;
 	}
 	
-	public static void serialize() {
-		try (FileOutputStream fs = new FileOutputStream(Database.getINSTANCE().getPath() + "datas.txt")){                                
-			ObjectOutputStream oos = new ObjectOutputStream(fs);
-			oos.writeObject(Database.getINSTANCE());
-			oos.flush();
-			oos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-	
-	public static void deserialize() {
-		try (FileInputStream fis = new FileInputStream(Database.getINSTANCE().getPath() + "datas.txt")) {
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			INSTANCE = (Database) ois.readObject();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Error with deserializing");
-	}
+
 }
 
 

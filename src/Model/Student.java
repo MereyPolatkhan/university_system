@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.*;
 
 
 import Config.*;
 
-public class Student extends UserDecorator {
+public class Student extends UserDecorator implements Serializable {
 	private Map<Course, Mark> coursesMarks = new HashMap<Course, Mark>();
     public Period period;
     private Transcript transcript;
@@ -16,11 +17,15 @@ public class Student extends UserDecorator {
     public Speciality speciality;
     private int scholarship;
     private Schedule schedule;
+    private Journal journal;
     
 
     
     public Student(User user) {
     	super(user);
+    }
+    public Student(User user, String firstLastName, String login, String password) {
+    	super(user, firstLastName, login, password);
     }
     
     public Student(User user, String firstLastName, 
@@ -32,8 +37,10 @@ public class Student extends UserDecorator {
     	this.year = year;
     	this.department = department;
     	this.speciality = speciality;
+    	this.transcript = new Transcript();
     	if (level == StudentLevel.PhD) super.isResearcher = true;
     	else super.isResearcher = false;
+    	
     	
     	
     } 
@@ -58,8 +65,7 @@ public class Student extends UserDecorator {
 
     public boolean registerCourse(Course course) {
     	if (Manager.approveCourseRegistration(this, course) 
-    			&& Database.registrationCourses.contains(course)
-    			&& computeCreditsForThisSemester() <= 21) {
+    			&& computeCreditsForThisSemester() + course.credits <= 21) {
     		this.coursesMarks.put(course, new Mark());
     		return true;
     	}
@@ -92,23 +98,36 @@ public class Student extends UserDecorator {
 		return studentCourses;
     }
 
-    public boolean rateTeacher(Teacher teacher, Double rate) {
-    	return teacher.teacherRates.add(rate);
+    public void rateTeacher(Teacher teacher, Double point) {
+    	teacher.teacherRate.value += point;
+		teacher.teacherRate.count += 1;
+		teacher.teacherRate.value /= teacher.teacherRate.count;
     }
   
 
 
     public boolean writeDiplomaProject(DiplomaProjects d) {
-    	 return DiplomaProjects.projects.add(d);
+    	 return true;
     }
 	
-    public double getGeneralGPA() {
+    public double getCurrentGPA() {
     	double gpa = 0;
     	for (Map.Entry<Course, Mark> entry: coursesMarks.entrySet()) {
     		gpa += entry.getValue().getTotal().getGpa();
     	}
     	return gpa / coursesMarks.size();
     }
+    
+    public double getGeneralGpa() {
+    	double gpa = 0;
+    	int cnt = 0;
+    	for (Attestation a: this.transcript.attestations) {
+    		gpa += a.getAttestationGPA();
+    		cnt++;
+    	}
+    	return gpa / cnt * (1.0);
+    }
+    
     
     /*
      *  done + o Students can not have more than 21 credits
@@ -187,6 +206,10 @@ public class Student extends UserDecorator {
     	newStudent.coursesMarks = newCoursesMarks;
     	return newStudent;
     }
+
+	public Journal getJournal() {
+		return journal;
+	}
     
     
     

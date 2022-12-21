@@ -1,14 +1,18 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
 import Config.Database;
 
-public class Manager extends Employee implements ManageNews {
+public class Manager extends Employee implements ManageNews, Serializable{
 
+	public static Vector<Request> requests = new Vector<Request>();
+	
     public ManagerTypes type;    
     public Department department;
     
@@ -17,30 +21,15 @@ public class Manager extends Employee implements ManageNews {
 		super(user);
     }
     
-    public Manager(User user, double salary) {
-    	super(user);
-    	this.setSalary(salary);
-    }
-    
-    public Manager(User user, String firstLastName) {
-    	super(user, firstLastName);
-    }
-    
-    
-    public Manager(User user, String firstLastName, double salary) {
-    	super(user, firstLastName, salary);
-    }
-    
-    public Manager(User user, String firstLastName, String password)  {
-    	super(user, firstLastName, password);
-    }
     
     public Manager(User user, String firstLastName, String login, String password)  {
     	super(user, firstLastName, login, password);
     }
     
-    public Manager(User user, String firstLastName, double salary, ManagerTypes type, Department department) {
-    	this(user, firstLastName, salary);
+    public Manager(User user, String firstLastName, String login, String password, 
+    		double salary, ManagerTypes type, Department department) {
+    	super(user, firstLastName, login, password);
+    	this.setSalary(salary);
     	this.type = type;
     	this.department = department;
     }
@@ -49,43 +38,77 @@ public class Manager extends Employee implements ManageNews {
     
     public static boolean approveCourseRegistration(Student student, Course course) {
         Vector<Course> prerequisites = course.prerequisites;
-        Vector<Journal> journals = student.getTranscript().journals;
+        Vector<Attestation> attestations = student.getTranscript().attestations;
+        
+        if (!Database.registrationCourses.contains(course)) {
+        	System.out.println("this course doesnt exist in registration courses\nPlease try again");
+        	return false;
+        }
         
         for (Course prereq: prerequisites) {
-        	for (Journal journal: journals) {
-        		HashMap<Course, Mark> courseAndMarks = journal.courses;
+        	for (Attestation attestation: attestations) {
+        		HashMap<Course, Mark> courseAndMarks = (HashMap<Course, Mark>) attestation.courses;
+        		if (courseAndMarks.containsKey(course)) {
+        			System.out.println("Student has already studied this course");
+        			return false;
+        		}
         		if (courseAndMarks.containsKey(prereq)) {
         			if (courseAndMarks.get(prereq).getTotal().digitGrade < 50) {
+        				System.out.println("Student failed this course");
         				return false;
         			}
         		}
-        		else {
-        			return false;
-        		}
         	}
         }
+        System.out.println("Manager approved registration)");
         return true;
     }
     
-    public boolean addCourseForRegistration(Course course) {
+    public static boolean addCourseForRegistration(Course course) {
         return Database.registrationCourses.add(course);
     }
     
-    public Report createStatisticalReport(Course course) {
-        Report courseReport = new Report();
-        
-        return courseReport;
-    }
+    public static void createStatisticalReportOnAcademicPerformance(Student student) {
+    	double meanGpa = student.getGeneralGpa();
+    	double minGpa = 5, maxGpa = 0;
+    	Vector<Double> attestationGPAs = new Vector<Double>();
+    	for (Attestation a: student.getTranscript().attestations) {
+    		double gpa = a.getAttestationGPA();
+    		minGpa = Math.min(minGpa, gpa);
+    		maxGpa = Math.max(maxGpa, gpa);
+    		attestationGPAs.add(gpa);
+    	}
+    	double stdDevGpa = Transcript.standardDeviation(attestationGPAs, meanGpa);
+    	System.out.println("GPA: mean=" + meanGpa + ", std dev=" + stdDevGpa + ", min=" + minGpa + ", max=" + maxGpa);
+   
     
-    public Report createStatisticalReport(Teacher teacher) {
-    	Report teacherReport = new Report();
+    	double meanScore = 0;
+    	Vector<Double> scores = new Vector<Double>();
+    	double minScore = 101, maxScore = -1;
     	
-    	return teacherReport;
+    	Vector<Attestation> studentAttestations = student.getTranscript().attestations;
+    	for (Attestation att: studentAttestations) {
+    		for (Map.Entry<Course, Mark> entry: att.courses.entrySet()) {
+    			scores.add(entry.getValue().getTotal().digitGrade);
+    		}
+    	}
+    	for (double d: scores) {
+    		meanScore += d;
+    		minScore = Math.min(minScore, d);
+    		maxScore = Math.max(maxScore, d);
+    	}
+    	meanScore = meanScore / scores.size();
+    	double stdDevScore = Transcript.standardDeviation(scores, meanScore);
+       	System.out.println("Score: mean=" + meanScore + ", std dev=" + stdDevScore + ", min=" + minScore + ", max=" + maxScore);
+        
     }
     
-    public Vector<Student> viewInfoAboutStudents(HowToSort howToSort) {
-    	Vector<Student> copiedForSorting = (Vector<Student>) Database.getStudentsFromDB().clone();
-        if (howToSort == HowToSort.ALPHABETICALLY) {
+    public Vector<Student> viewInfoAboutStudents(HowToSort howToSort) throws CloneNotSupportedException {
+    	Vector<Student> copiedForSorting = new Vector<Student>();
+    	for (Student s:  Database.getStudentsFromDB()) {
+    		copiedForSorting.add((Student) s.clone());
+    	}
+        if (howToSort == HowToSort.YEAR) {
         	Collections.sort(copiedForSorting, new StudentYearComparator());
         }
         else if (howToSort == HowToSort.GPA) {
@@ -95,8 +118,12 @@ public class Manager extends Employee implements ManageNews {
         return copiedForSorting;
     }
     
-    public Vector<Teacher> viewInfoAboutTeachers(HowToSort howToSort) {
-    	Vector<Teacher> copiedForSorting = (Vector<Teacher>) Database.getTeachersFromDB().clone();
+    public Vector<Teacher> viewInfoAboutTeachers(HowToSort howToSort) throws CloneNotSupportedException {
+    	Vector<Teacher> copiedForSorting = new Vector<Teacher>();
+    	for (Teacher t: Database.getTeachersFromDB()) {
+    		copiedForSorting.add((Teacher) t.clone());
+    	}
+    	
         if (howToSort == HowToSort.RATE) {
         	Collections.sort(copiedForSorting, new RateComparator());
         }
@@ -108,7 +135,7 @@ public class Manager extends Employee implements ManageNews {
     
     public Vector<Request> viewSignedRequests() {
         Vector<Request> signed = new Vector<Request>();
-        for (Request request: Database.requests) {
+        for (Request request: Manager.requests) {
         	if (request.signedByDean == true || request.signedByRector == true) {
         		signed.add(request);
         	}
@@ -116,7 +143,7 @@ public class Manager extends Employee implements ManageNews {
         return signed;
     }
     
-    public boolean assignCoursesToTeachers(Vector<Course> courses, Vector<Teacher> teachers) {
+    public static boolean assignCoursesToTeachers(Vector<Course> courses, Vector<Teacher> teachers) {
     	boolean isAtLeastOneCourseAdded= true;
     	
         for (Teacher teacher: teachers) {
@@ -128,21 +155,14 @@ public class Manager extends Employee implements ManageNews {
 
 	@Override
 	public boolean addNews(News news) {
-		return Database.news.add(news);
+		return News.news.add(news);
 	}
 
 	@Override
 	public boolean deleteNews(News news) {
-		return Database.news.remove(news);
+		return News.news.remove(news);
 	}
 
-	@Override
-	public boolean editNews(News oldNews, News newNews) {
-		if (Database.news.remove(oldNews)) {
-			return Database.news.add(newNews);
-		}
-		return false;
-	} 
 	
 	
     

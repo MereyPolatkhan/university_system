@@ -5,42 +5,33 @@ import java.util.Map.Entry;
 
 import Config.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Librarian extends Employee {
+public class Librarian extends Employee implements Serializable {
 
-	
+	public static HashMap<Book, Integer> booksInLibrary = new HashMap<Book, Integer>();
+	public static HashMap<User, Map<LocalDate, Book>> borrowedBooks = new HashMap<User, Map<LocalDate, Book>>();
+
 	public Librarian(User user) {
 		super(user);
 	}
 	
-    public Librarian(User user, double salary) {
-		super(user, salary);
-	}
-
-    public Librarian(User user, String firstLastName) {
-    	super(user, firstLastName);
-    }
-    
-    public Librarian(User user, String firstLastName, double salary) {
-    	super(user, firstLastName, salary);
-    }
-    
-    public Librarian(User user, String firstLastName, String password)  {
-    	super(user, firstLastName, password);
-    }
-    
-    public Librarian(User user, String firstLastName, String login, String password)  {
+    public Librarian(User user, String firstLastName, String login, String password) {
     	super(user, firstLastName, login, password);
     }
-    
+	
+    public Librarian(User user, String firstLastName, String login, String password, double salary)  {
+    	super(user, firstLastName, login, password);
+    	super.setSalary(salary);
+    }
     
     
     //                          Operations                   
     
     public static boolean giveBook(Book book, User user) { 
-    	HashMap<User, Map<LocalDate, Book>> booksBorrowed = Database.borrowedBooks;
+    	HashMap<User, Map<LocalDate, Book>> booksBorrowed = Librarian.borrowedBooks;
     	if (Librarian.removeBookFromLibrary(book)) {
     		Map<LocalDate, Book> userBooks = booksBorrowed.get(user);
     		userBooks.put(LocalDate.now().plusMonths(6), book);
@@ -51,7 +42,7 @@ public class Librarian extends Employee {
     }
     
     public static boolean returnBook(Book book, User user) { 
-    	Map<LocalDate, Book> userBooks = Database.borrowedBooks.get(user);
+    	Map<LocalDate, Book> userBooks = Librarian.borrowedBooks.get(user);
     	if (userBooks.containsValue(book)) {
     		for (Entry<LocalDate, Book> entry: userBooks.entrySet()) {
     			if (entry.getValue() == book) {
@@ -71,7 +62,7 @@ public class Librarian extends Employee {
     }
     
     public static boolean addBookToLibrary(Book book) {
-    	HashMap<Book, Integer> booksInLib = Database.booksInLibrary;
+    	HashMap<Book, Integer> booksInLib = Librarian.booksInLibrary;
     	
     	if (booksInLib.containsKey(book)) {
     		booksInLib.put(book, booksInLib.get(book) + 1);
@@ -83,7 +74,7 @@ public class Librarian extends Employee {
     }
     
     public static boolean removeBookFromLibrary(Book book) {
-    	HashMap<Book, Integer> booksInLib = Database.booksInLibrary;
+    	HashMap<Book, Integer> booksInLib = Librarian.booksInLibrary;
     	
     	if (booksInLib.containsKey(book)) {
     		if (booksInLib.get(book) >= 2) {

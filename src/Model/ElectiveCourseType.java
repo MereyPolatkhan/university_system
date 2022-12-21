@@ -1,5 +1,7 @@
 package Model;
 
-public enum ElectiveCourseType {
+import java.io.Serializable;
+
+public enum ElectiveCourseType implements Serializable{
 	FREE, MAJOR, MUST, UNDEFINED;
 }

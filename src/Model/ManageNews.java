@@ -1,7 +1,8 @@
 package Model;
 
-public interface ManageNews {
+import java.io.Serializable;
+
+public interface ManageNews extends Serializable {
 	boolean addNews(News news);
 	boolean deleteNews(News news);
-	boolean editNews(News oldNews, News newNews);
 }

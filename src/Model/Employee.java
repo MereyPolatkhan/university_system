@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class Employee extends UserDecorator {
+public class Employee extends UserDecorator implements Serializable {
 
 	private double salary;
 	

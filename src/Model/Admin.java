@@ -1,34 +1,26 @@
 package Model;
 
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import Config.Database;
 
-public class Admin extends Employee{
+public class Admin extends Employee implements Serializable{
+	public static Vector<String> lastUserActions = new Vector<String>();
 
 	public Admin(User user) {
 		super(user);
 	}
-	
-    public Admin(User user, double salary) {
-		super(user, salary);
-	}
-
-    public Admin(User user, String firstLastName) {
-    	super(user, firstLastName);
-    }
     
-    public Admin(User user, String firstLastName, double salary) {
-    	super(user, firstLastName, salary);
-    }
     
-    public Admin(User user, String firstLastName, String password)  {
-    	super(user, firstLastName, password);
-    }
-    
-    public Admin(User user, String firstLastName, String login, String password)  {
+    public Admin(User user, String firstLastName, String login, String password) {
     	super(user, firstLastName, login, password);
+    }
+	
+    public Admin(User user, String firstLastName, String login, String password, double salary)  {
+    	super(user, firstLastName, login, password);
+    	super.setSalary(salary);
     }
     
 	//                          Operations                                  
@@ -42,10 +34,10 @@ public class Admin extends Employee{
     }
 
 	public static  Vector<String> getLastActions() {
-		return Database.lastUserActions;
+		return Admin.lastUserActions;
 	}
 	
-    
+
     public String toString() {
     	return "Admin: " + super.toString();
     }

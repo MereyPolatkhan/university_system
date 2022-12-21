@@ -1,20 +1,53 @@
 package Model;
 
-public class Book {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Book implements Comparable<Book>, Cloneable, Serializable{
 
     public String name;
     
-    public String description;
+    public String author;
 
-    public Book() {} 
+    public Book() {
+    } 
     
-    public Book(String name) {
+    public Book(String name, String author) {
     	this.name = name;
-    	this.description = "Undefined";
+    	this.author = author;
     }
-    public Book(String name, String description) {
-    	this(name);
-    	this.description = description;
+    
+    public String toString() {
+    	return "book: " + name + ", author: " + author;
     }
 	
+    public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+		Book b = (Book)o;
+		return b.name.equals(this.name) && b.author.equals(this.author);
+    }
+    
+    public int hashCode() { 
+    	return Objects.hash(name, author);
+    }
+    
+    public Object clone() {
+    	Book newBook = new Book();
+    	newBook.name = this.name;
+    	newBook.author = this.author;
+    	return newBook;
+    }
+
+	@Override
+	public int compareTo(Book b) {
+		return this.name.compareTo(b.name);
+	}
 }

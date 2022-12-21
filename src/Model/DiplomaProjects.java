@@ -1,12 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class DiplomaProjects {
+public class DiplomaProjects implements Serializable {
 	
 	
 	
-	public static Vector<DiplomaProjects> projects;
     
 
     //                          Operations                                  

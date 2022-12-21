@@ -1,56 +1,51 @@
 package Model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
-public class Teacher extends Employee {
+public class Teacher extends Employee implements Serializable{
 	
 	public Vector<Course> courses;
-	public HashMap<Course, Vector<File>> courseFiles;
-	public Vector<Double> teacherRates;
+	public HashMap<Course, Vector<Filebek>> courseFiles;
 
+	public Rate teacherRate;
         
     public Department department;
     public TeacherLevel teacherLevel;
     
     {
     	courses = new Vector<Course>();
-    	courseFiles = new HashMap<Course, Vector<File>>();
-    	teacherRates = new Vector<Double>();
+    	courseFiles = new HashMap<Course, Vector<Filebek>>();
     }
     
     public Teacher(User user) {
     	super(user);
     }
     
-    public Teacher(User user,  String firstLastName, 
-    		String login, String password,
-    		double salary, Department department, 
-    		TeacherLevel teacherLevel) {
+    public Teacher(User user, String firstLastName, String login, String password) {
     	super(user, firstLastName, login, password);
-    	this.setSalary(salary);;
-    	this.department = department;
-    	this.teacherLevel = teacherLevel;
-    	
-    	if (teacherLevel == TeacherLevel.ASSISTANT_PROFESSOR  || 
-    		teacherLevel == TeacherLevel.ASSOCIATE_PROFESSOR || 
-    		teacherLevel == TeacherLevel.PROFESSOR)
-    		super.isResearcher = true;
-    	else super.isResearcher = false;
-    } 
+    }
     
-    
-    
-    public Teacher(User user, String firstLastName, double salary, Department department, TeacherLevel teacherLevel) {
-    	super(user, firstLastName);
+    public Teacher(User user,  String firstLastName, String login, String password,
+    		double salary, Department department, TeacherLevel teacherLevel, Rate rate) {
+    	super(user, firstLastName, login, password);
     	this.setSalary(salary);
     	this.department = department;
     	this.teacherLevel = teacherLevel;
+    	this.teacherRate = rate;
+    	
+    	if (teacherLevel == TeacherLevel.ASSISTANT_PROFESSOR  || 
+    		teacherLevel == TeacherLevel.ASSOCIATE_PROFESSOR || 
+    		teacherLevel == TeacherLevel.PROFESSOR) {
+    		super.isResearcher = true;
+    	}
+    	else super.isResearcher = false;
+    	
+    	
     } 
     
-    public Teacher(User user, String firstLastName, double salary, Department department, TeacherLevel teacherLevel, Vector<Course> courses) {
-    	this(user, firstLastName, salary, department, teacherLevel);
-    	this.courses = courses;
-    } 
     
     
     //                          Operations                                  
@@ -78,34 +73,36 @@ public class Teacher extends Employee {
     	return false;
     }
     
-    public boolean addCourseFile(Course course, File file) {
-    	Vector<File> files = courseFiles.get(course);
-    	files.add(file);
-    	courseFiles.put(course, files);
+    public boolean putAttendance(Student student, Course course, boolean isAttended) {
+    	Map<Course, TreeMap<LocalDate, Pair<Boolean, Double>>> coursesAttendancePoints = student.getJournal().courseAttendanceAndPoints;
+    	TreeMap<LocalDate, Pair<Boolean, Double>> courseAtt = coursesAttendancePoints.get(course);
+    	
+    }
+    
+    
+    public boolean addCourseFile(Course course, Filebek filebek) {
+    	Vector<Filebek> filebeks = courseFiles.get(course);
+    	filebeks.add(filebek);
+    	courseFiles.put(course, filebeks);
     	return true;
     }
     
-    public boolean deleteCourseFile(Course course, File file) {
-    	Vector<File> files = courseFiles.get(course);
-    	if (files.isEmpty()) {
+    public boolean deleteCourseFile(Course course, Filebek filebek) {
+    	Vector<Filebek> filebeks = courseFiles.get(course);
+    	if (filebeks.isEmpty()) {
     		return false;
     	}
-    	files.remove(file);
-    	courseFiles.put(course, files);
+    	filebeks.remove(filebek);
+    	courseFiles.put(course, filebeks);
     	return true;
     }
     
-    public double computeTeacherRate() {
-    	double sum = 0;
-    	
-    	for (double d: this.teacherRates) {
-    		sum += d;
-    	}
-    	return sum / this.teacherRates.size();
+    public double getRateValue() {
+    	return this.teacherRate.value;
     }
     
     public String toString() {
-    	return "Teacher: " + super.toString() + ", courses: " + courses + ", rating: " + computeTeacherRate() + ", department: " + department + ", level: " + teacherLevel;
+    	return "Teacher: " + super.toString() + ", courses: " + courses + ", rating: " + getRateValue() + ", department: " + department + ", level: " + teacherLevel;
     }
     
     public boolean equals(Object o) {
@@ -116,7 +113,7 @@ public class Teacher extends Employee {
     	return 
     			teacher.courses == this.courses &&
     			teacher.courseFiles == this.courseFiles &&
-    			teacher.computeTeacherRate() == this.computeTeacherRate() &&
+    			teacher.teacherRate == this.teacherRate &&
     			teacher.department == this.department &&
     			teacher.teacherLevel == this.teacherLevel; 
     }
@@ -124,7 +121,7 @@ public class Teacher extends Employee {
     public int hashCode() {
     	return super.hashCode() + 
     			Objects.hash(courses, courseFiles, 
-    					computeTeacherRate(), department, 
+    					teacherRate, department, 
     					teacherLevel);
     }
     
@@ -133,10 +130,10 @@ public class Teacher extends Employee {
     		return super.compareTo(user);
     	}
     	Teacher t = (Teacher)user;
-    	if (this.computeTeacherRate() < t.computeTeacherRate()) { 
+    	if (this.getRateValue() < t.getRateValue()) { 
     		return -1;
     	}
-    	else if (this.computeTeacherRate() > t.computeTeacherRate()) {
+    	else if (this.getRateValue() > t.getRateValue()) {
     		return 1;
     	}
     	return 0;
@@ -144,27 +141,27 @@ public class Teacher extends Employee {
     
     public Object clone() throws CloneNotSupportedException {
     	Teacher newTeacher = new Teacher(user);
-    	newTeacher.department = this.department.clone();
+    	newTeacher.department = (Department) this.department.clone();
     	newTeacher.teacherLevel = this.teacherLevel;
     	
     	Vector<Course> newCourses = new Vector<Course>();
     	for (Course c: this.courses) {
-    		newCourses.add(c.clone());
+    		newCourses.add((Course) c.clone());
     	}
     	newTeacher.courses = newCourses;
     	
-    	HashMap<Course, Vector<File>> newCourseFiles = new HashMap<Course, Vector<File>>();
-    	for (Map.Entry<Course, Vector<File>> entry: this.courseFiles.entrySet()) {
-    		Vector<File> newFiles = new Vector<File>();
-    		for (File f: entry.getValue()) {
-    			newFiles.add(f.clone());
+    	HashMap<Course, Vector<Filebek>> newCourseFiles = new HashMap<Course, Vector<Filebek>>();
+    	for (Map.Entry<Course, Vector<Filebek>> entry: this.courseFiles.entrySet()) {
+    		Vector<Filebek> newFiles = new Vector<Filebek>();
+    		for (Filebek f: entry.getValue()) {
+    			newFiles.add((Filebek) f.clone());
     		}
-    		newCourseFiles.put(entry.getKey().clone(), newFiles);
+    		newCourseFiles.put((Course) entry.getKey().clone(), newFiles);
     	}
     	newTeacher.courseFiles = newCourseFiles;
     	
-    	newTeacher.teacherRates = (Vector<Double>) this.teacherRates.clone();
-    	
-    	
+    
+    	newTeacher.teacherRate = (Rate) this.teacherRate.clone();
+    	return newTeacher;
     }
 }

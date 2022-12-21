@@ -1,12 +1,13 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 
 import Config.*;
 
 
-public class Request {
+public class Request implements Serializable {
     
 	public String header;
 	public String definition;
@@ -52,7 +53,7 @@ public class Request {
     }
     
     public Vector<Request> getRequests() {
-        return Database.requests;
+        return Manager.requests;
     }
     
     
