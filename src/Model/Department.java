@@ -9,7 +9,7 @@ public class Department  implements  Serializable{
 
 	public String name;
     
-	public Vector<Speciality> specialities;
+	public Vector<Speciality> specialities = new Vector<Speciality>();
 	
 	public Department() {};
 

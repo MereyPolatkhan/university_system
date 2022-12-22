@@ -8,7 +8,7 @@ import java.util.*;
 public class Teacher extends Employee implements Serializable{
 	
 	public Vector<Course> courses;
-	public HashMap<Course, Vector<Filebek>> courseFiles;
+	public HashMap<Course, Vector<TeacherCourseFile>> courseFiles;
 
 	public Rate teacherRate;
         
@@ -17,7 +17,8 @@ public class Teacher extends Employee implements Serializable{
     
     {
     	courses = new Vector<Course>();
-    	courseFiles = new HashMap<Course, Vector<Filebek>>();
+    	courseFiles = new HashMap<Course, Vector<TeacherCourseFile>>();
+    	teacherRate = new Rate(0,0);
     }
     
     public Teacher(User user) {
@@ -73,27 +74,32 @@ public class Teacher extends Employee implements Serializable{
     	return false;
     }
     
-    public boolean putAttendance(Student student, Course course, boolean isAttended) {
-    	Map<Course, TreeMap<LocalDate, Pair<Boolean, Double>>> coursesAttendancePoints = student.getJournal().courseAttendanceAndPoints;
-    	TreeMap<LocalDate, Pair<Boolean, Double>> courseAtt = coursesAttendancePoints.get(course);
-    	
+    public boolean putAttendance(LocalDate date, Student student, Course course, double mark) {
+	    
+	   	Map<Course, TreeMap<LocalDate, Pair<Boolean, Double>>> coursesAttendancePoints = student.getJournal().courseAttendanceAndPoints;
+	   	TreeMap<LocalDate, Pair<Boolean, Double>> courseAtt = coursesAttendancePoints.get(course);
+	   	
+	   	Pair<Boolean, Double> markAtt = new Pair(true, mark);
+	   	courseAtt.put(date, markAtt);
+	   	return true;
+	    
     }
     
     
-    public boolean addCourseFile(Course course, Filebek filebek) {
-    	Vector<Filebek> filebeks = courseFiles.get(course);
-    	filebeks.add(filebek);
-    	courseFiles.put(course, filebeks);
+    public boolean addCourseFile(Course course, TeacherCourseFile teacherCourseFile) {
+    	Vector<TeacherCourseFile> teacherCourseFiles = courseFiles.get(course);
+    	teacherCourseFiles.add(teacherCourseFile);
+    	courseFiles.put(course, teacherCourseFiles);
     	return true;
     }
     
-    public boolean deleteCourseFile(Course course, Filebek filebek) {
-    	Vector<Filebek> filebeks = courseFiles.get(course);
-    	if (filebeks.isEmpty()) {
+    public boolean deleteCourseFile(Course course, TeacherCourseFile teacherCourseFile) {
+    	Vector<TeacherCourseFile> teacherCourseFiles = courseFiles.get(course);
+    	if (teacherCourseFiles.isEmpty()) {
     		return false;
     	}
-    	filebeks.remove(filebek);
-    	courseFiles.put(course, filebeks);
+    	teacherCourseFiles.remove(teacherCourseFile);
+    	courseFiles.put(course, teacherCourseFiles);
     	return true;
     }
     
@@ -102,7 +108,7 @@ public class Teacher extends Employee implements Serializable{
     }
     
     public String toString() {
-    	return "Teacher: " + super.toString() + ", courses: " + courses + ", rating: " + getRateValue() + ", department: " + department + ", level: " + teacherLevel;
+    	return "Teacher: " + super.toString() + ", courses: " + courses + ", rating: " + this.teacherRate.value + ", department: " + department + ", level: " + teacherLevel;
     }
     
     public boolean equals(Object o) {
@@ -150,11 +156,11 @@ public class Teacher extends Employee implements Serializable{
     	}
     	newTeacher.courses = newCourses;
     	
-    	HashMap<Course, Vector<Filebek>> newCourseFiles = new HashMap<Course, Vector<Filebek>>();
-    	for (Map.Entry<Course, Vector<Filebek>> entry: this.courseFiles.entrySet()) {
-    		Vector<Filebek> newFiles = new Vector<Filebek>();
-    		for (Filebek f: entry.getValue()) {
-    			newFiles.add((Filebek) f.clone());
+    	HashMap<Course, Vector<TeacherCourseFile>> newCourseFiles = new HashMap<Course, Vector<TeacherCourseFile>>();
+    	for (Map.Entry<Course, Vector<TeacherCourseFile>> entry: this.courseFiles.entrySet()) {
+    		Vector<TeacherCourseFile> newFiles = new Vector<TeacherCourseFile>();
+    		for (TeacherCourseFile f: entry.getValue()) {
+    			newFiles.add((TeacherCourseFile) f.clone());
     		}
     		newCourseFiles.put((Course) entry.getKey().clone(), newFiles);
     	}

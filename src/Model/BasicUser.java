@@ -21,8 +21,8 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable , Seria
 
     public boolean isResearcher;
     public int hIndex;
-    public Vector<String> researchPapers;
-    public Vector<String> researchProjects;
+    public Vector<String> researchPapers = new Vector<String>();
+    public Vector<String> researchProjects = new Vector<String>();
     
 	private static int count = 0;
 	
@@ -231,18 +231,38 @@ public class BasicUser implements User, Comparable<BasicUser>, Cloneable , Seria
 
 	@Override
 	public boolean doResearch() {
-		System.out.println("Basic User who is not researcher cannot research");
-		return false;
+		if (isResearcher == false) {
+			System.out.println("Basic User who is not researcher cannot research");
+			return false;
+		}
+		else {
+			System.out.println("You can make project/paper");
+			return true;
+		}
 	}
 
 	@Override
 	public boolean addResearchPaper(String paper) {
-		return false;
+		if (isResearcher == true) {
+			return this.researchPapers.add(paper);
+		}
+		else {
+			System.out.println("You r not researcher");
+			return false;
+		}
 	}
 
 	@Override
 	public boolean addResearchProject(String project) {
-		return false;
+		if (isResearcher == true) {
+			return this.researchProjects.add(project);
+		}
+		else {
+			System.out.println("You r not researcher");
+			return false;
+		}
 	}
+	
+	
 	
 }

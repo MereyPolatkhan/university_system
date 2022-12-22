@@ -3,7 +3,9 @@ import java.util.Set;
 import java.util.Vector;
 
 import Config.Database;
+import Controller.TeacherController;
 import Model.*;
+import View.TeacherView;
 
 import java.time.*;
 
@@ -146,7 +148,9 @@ public class Test {
 		Librarian.addBookToLibrary(book1);
 		Librarian.addBookToLibrary(book2);
 		Librarian.addBookToLibrary(book3);
-
+		Librarian.serializeBooksInLib();
+		Librarian.serializeBorrowed();
+		
 		Department.depatments.add(fit);
 		Department.depatments.add(mcm);
 		
@@ -167,12 +171,12 @@ public class Test {
 		Manager.addCourseForRegistration(rus);
 		Manager.addCourseForRegistration(glob);
 		
-		System.out.println("added ADS: " + zhantore.registerCourse(ads));
+//		System.out.println("added ADS: " + zhantore.registerCourse(ads));
 		System.out.println("added OOP: " + zhantore.registerCourse(oop));
-		System.out.println("added DB: " + zhantore.registerCourse(db));
-		System.out.println("added ICT: " + zhantore.registerCourse(ict));
-		System.out.println("added RUS: " + zhantore.registerCourse(rus));
-		System.out.println("added Globa: " + zhantore.registerCourse(glob));
+//		System.out.println("added DB: " + zhantore.registerCourse(db));
+//		System.out.println("added ICT: " + zhantore.registerCourse(ict));
+//		System.out.println("added RUS: " + zhantore.registerCourse(rus));
+//		System.out.println("added Globa: " + zhantore.registerCourse(glob));
 
 		pakita.courses.add(oop);
 		amanov.courses.add(ads);
@@ -198,6 +202,9 @@ public class Test {
 		
 		Database.serializeAll();
 		
+//		TeacherController tc = new TeacherController(pakita, new TeacherView());
+//		
+//		tc.run();
 //		User mereyUser = new Student(new BasicUser(), "Merey Polatkhan", "m_polatkhan", "hihihi11jH", StudentLevel.BACHELOR, 2, fit, new Speciality("Information Systems"));
 //		System.out.println(mereyUser);
 //		mereyUser = new ResearcherDecorator(mereyUser);

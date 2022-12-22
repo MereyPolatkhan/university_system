@@ -8,9 +8,11 @@ public class Employee extends UserDecorator implements Serializable {
 
 	private double salary;
 	
-	private Vector<String> messages;
+	private Vector<String> messages = new Vector<String>();
     
-	
+	{
+		messages = new Vector<String>();
+	}
 	
     public Employee(User user) {
 		super(user);
@@ -76,8 +78,7 @@ public class Employee extends UserDecorator implements Serializable {
 		
 		Employee e = (Employee)o;
 		return 
-				e.salary == this.salary && 
-				e.messages.equals(this.messages);
+				e.salary == this.salary;
 	}
 	
 	public int hashCode() {

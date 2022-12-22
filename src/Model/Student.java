@@ -19,7 +19,7 @@ public class Student extends UserDecorator implements Serializable {
     private Schedule schedule;
     private Journal journal;
     
-
+    
     
     public Student(User user) {
     	super(user);
@@ -64,10 +64,11 @@ public class Student extends UserDecorator implements Serializable {
     //                          Operations                                  
 
     public boolean registerCourse(Course course) {
-    	if (Manager.approveCourseRegistration(this, course) 
-    			&& computeCreditsForThisSemester() + course.credits <= 21) {
-    		this.coursesMarks.put(course, new Mark());
-    		return true;
+    	if (Manager.approveCourseRegistration(this, course)) {
+    		if (computeCreditsForThisSemester() + course.credits <= 21) {
+    			this.coursesMarks.put(course, new Mark());
+    			return true;
+    		}
     	}
     	return false;
     }
@@ -81,12 +82,13 @@ public class Student extends UserDecorator implements Serializable {
 	}
 
 
-	public Vector<Teacher> getTeacherInfo(Course course) {
+	public Vector<Teacher> getTeachers(Course course) {
     	return course.getTeachers();
     }
 
-    public Map<Course, Mark> viewMarks() {
-        return this.getCoursesMarks();
+
+    public Mark viewMarks(Course course) {
+        return this.getCoursesMarks().get(course);
     }
     
   

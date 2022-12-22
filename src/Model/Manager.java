@@ -68,6 +68,18 @@ public class Manager extends Employee implements ManageNews, Serializable{
         return Database.registrationCourses.add(course);
     }
     
+	private static double standardDeviation(Vector<Double> numbers, double mean) {
+		double result = 0;
+		double sumSquare = 0;
+		int n = numbers.size();
+		for (double d: numbers) {
+			sumSquare += ((d - mean) * (d - mean));
+		}
+		result = Math.sqrt(sumSquare / (n - 1));
+		return result;
+	}
+	
+    
     public static void createStatisticalReportOnAcademicPerformance(Student student) {
     	double meanGpa = student.getGeneralGpa();
     	double minGpa = 5, maxGpa = 0;
@@ -78,7 +90,7 @@ public class Manager extends Employee implements ManageNews, Serializable{
     		maxGpa = Math.max(maxGpa, gpa);
     		attestationGPAs.add(gpa);
     	}
-    	double stdDevGpa = Transcript.standardDeviation(attestationGPAs, meanGpa);
+    	double stdDevGpa = Manager.standardDeviation(attestationGPAs, meanGpa);
     	System.out.println("GPA: mean=" + meanGpa + ", std dev=" + stdDevGpa + ", min=" + minGpa + ", max=" + maxGpa);
    
     
@@ -98,39 +110,40 @@ public class Manager extends Employee implements ManageNews, Serializable{
     		maxScore = Math.max(maxScore, d);
     	}
     	meanScore = meanScore / scores.size();
-    	double stdDevScore = Transcript.standardDeviation(scores, meanScore);
+    	double stdDevScore = Manager.standardDeviation(scores, meanScore);
        	System.out.println("Score: mean=" + meanScore + ", std dev=" + stdDevScore + ", min=" + minScore + ", max=" + maxScore);
         
     }
     
     public Vector<Student> viewInfoAboutStudents(HowToSort howToSort) throws CloneNotSupportedException {
-    	Vector<Student> copiedForSorting = new Vector<Student>();
+    	Vector<Student> studentss = new Vector<Student>();
+    	 
     	for (Student s:  Database.getStudentsFromDB()) {
-    		copiedForSorting.add((Student) s.clone());
+    		studentss.add(s);
     	}
         if (howToSort == HowToSort.YEAR) {
-        	Collections.sort(copiedForSorting, new StudentYearComparator());
+        	Collections.sort(studentss, new StudentYearComparator());
         }
         else if (howToSort == HowToSort.GPA) {
-        	Collections.sort(copiedForSorting, new GPAComparator());
+        	Collections.sort(studentss, new GPAComparator());
         }
         
-        return copiedForSorting;
+        return studentss;
     }
     
     public Vector<Teacher> viewInfoAboutTeachers(HowToSort howToSort) throws CloneNotSupportedException {
-    	Vector<Teacher> copiedForSorting = new Vector<Teacher>();
+    	Vector<Teacher> teacherss = new Vector<Teacher>();
     	for (Teacher t: Database.getTeachersFromDB()) {
-    		copiedForSorting.add((Teacher) t.clone());
+    		teacherss.add(t);
     	}
     	
         if (howToSort == HowToSort.RATE) {
-        	Collections.sort(copiedForSorting, new RateComparator());
+        	Collections.sort(teacherss, new RateComparator());
         }
         else if (howToSort == HowToSort.SALARY) {
-        	Collections.sort(copiedForSorting, new SalaryComparator());
+        	Collections.sort(teacherss, new SalaryComparator());
         }
-        return copiedForSorting;
+        return teacherss;
     }
     
     public Vector<Request> viewSignedRequests() {

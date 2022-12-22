@@ -10,7 +10,7 @@ public class DepartmentController {
 		try {
 			String depName = (ManagerController.br.readLine()).trim();
 			for (Department d: Department.depatments) {
-				if (d.name == depName) { 
+				if (d.name.equals(depName)) { 
 					return d;
 				}
 			}

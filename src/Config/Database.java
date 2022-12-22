@@ -60,6 +60,9 @@ public class Database implements Serializable{
 		return INSTANCE;
 	}
 	
+	public static String getPath() {
+		return BASE_PATH;
+	}
 	public static void serializeAll() {
 		serializeUsers();
 		serializeCourses();
@@ -120,6 +123,7 @@ public class Database implements Serializable{
 			FileInputStream fis = new FileInputStream(BASE_PATH + "courses.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			Database.registrationCourses = (Vector<Course>) ois.readObject();
+			
 			fis.close();
 			ois.close();
 		} catch (FileNotFoundException e) {

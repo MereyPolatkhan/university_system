@@ -18,17 +18,7 @@ public class Transcript implements Cloneable, Serializable {
 	}
 	
 	
-	public static double standardDeviation(Vector<Double> numbers, double mean) {
-		double result = 0;
-		double sumSquare = 0;
-		int n = numbers.size();
-		for (double d: numbers) {
-			sumSquare += ((d - mean) * (d - mean));
-		}
-		result = Math.sqrt(sumSquare / (n - 1));
-		return result;
-	}
-	
+
 	public String toString() {
 		return "Transcript attestations: " + this.attestations;
 	}

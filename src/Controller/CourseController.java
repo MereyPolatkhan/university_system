@@ -62,7 +62,7 @@ public class CourseController {
 					System.out.println("Please write name of " + i + "-course");
 					String curCourseName = (ManagerController.br.readLine()).trim();
 					for (Course c: Database.registrationCourses) {
-						if (c.courseName == curCourseName) {
+						if (c.courseName.equals(curCourseName)) {
 							prereqs.add(c);
 							System.out.println(i + "-course added succesfully");
 							break;
@@ -82,7 +82,7 @@ public class CourseController {
 			String depName = br.readLine().trim();
 			boolean depExists = false;
 			for (Department d: Department.depatments) {
-				if (d.name == depName) {
+				if (d.name.equals(depName)) {
 					depExists = true;
 					course.department = d;
 					break;

@@ -27,8 +27,8 @@ public class Course  implements Serializable{
     	this.credits = credits;
     	this.prerequisites = new Vector<Course>();
     	this.ects = 5;
-    	this.department = null;
-    	this.intendedSpeciality = null;
+    	this.department = new Department();
+    	this.intendedSpeciality = new Speciality();
     	this.info = "undefined";
     	this.type = ElectiveCourseType.UNDEFINED;
     }
@@ -104,8 +104,8 @@ public class Course  implements Serializable{
 				c.ects == this.ects &&
 				c.type == this.type && 
 				c.courseName.equals(this.courseName)&&
-				c.department.equals(this.department) && 
-				c.intendedSpeciality.equals(this.intendedSpeciality)&& 
+//				c.department.equals(this.department) && 
+//				c.intendedSpeciality.equals(this.intendedSpeciality)&& 
 				c.info.equals(this.info) && 
 				c.prerequisites.equals(this.prerequisites) &&
 				c.lessons.equals(this.lessons);

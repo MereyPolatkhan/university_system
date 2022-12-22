@@ -41,7 +41,7 @@ public class UserFactory {
 		}
 		
 		System.out.println("Provide login: ");
-		String login = "logN12345";
+		String login = "";
 		try {
 			login = br.readLine().trim();
 		} catch (IOException e) {
@@ -50,7 +50,7 @@ public class UserFactory {
 		}
 		
 		System.out.println("Provide password: ");
-		String password = login;
+		String password = "";
 		try {
 			password = br.readLine().trim();
 		} catch (IOException e) {
@@ -59,23 +59,7 @@ public class UserFactory {
 		}
 		
 			
-		if ("Teacher".equalsIgnoreCase(who)) {
-			return new Teacher(new BasicUser(), firstLastName, login, password);
-		}
-		else if ("Manager".equalsIgnoreCase(who)) {
-			return new Manager(new BasicUser(), firstLastName, login, password);
-		}
-		else if ("Admin".equalsIgnoreCase(who)) {
-			return new Admin(new BasicUser(), firstLastName, login, password);
-		}
-		else if ("Librarian".equalsIgnoreCase(who)) {
-			return new Librarian(new BasicUser(), firstLastName, login, password);
-		}
-		else if ("Student".equalsIgnoreCase(who)) {
-			return new Student(new BasicUser(), firstLastName, login, password);
-		}
-		else return new BasicUser(firstLastName, login, password);
-		
+		return UserFactory.createUser(who, firstLastName, login, password);
 	}
 	
 	public static User createUser() {

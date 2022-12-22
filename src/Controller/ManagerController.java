@@ -27,7 +27,7 @@ public class ManagerController {
 			String depName = br.readLine().trim();
 			boolean depExists = false;
 			for (Department d: Department.depatments) {
-				if (d.name == depName) {
+				if (d.name.equals(depName)) {
 					depExists = true;
 					manager.department = d;
 					break;
@@ -93,7 +93,7 @@ public class ManagerController {
 		}
     	boolean studentExists = false;
     	for (Student s: Database.getStudentsFromDB()) {
-    		if (s.firstLastName == name) {
+    		if (s.firstLastName.equals(name)) {
     			studentExists = true;
     			student = s;
     			break;
@@ -165,7 +165,7 @@ public class ManagerController {
 				System.out.println("write " + i + "-course name: ");
 				String name = (ManagerController.br.readLine()).trim();
 				for (Course c: Database.registrationCourses) {
-					if (c.courseName == name) {
+					if (c.courseName.equals(name)) {
 						courses.add(c);
 						break;
 					}
@@ -185,7 +185,7 @@ public class ManagerController {
 				System.out.println("write " + i + "-teacher's name: ");
 				String name = (ManagerController.br.readLine()).trim();
 				for (Teacher t: Database.getTeachersFromDB()) {
-					if (t.firstLastName == name) {
+					if (t.firstLastName.equals(name)) {
 						teachers.add(t);
 						break;
 					}
@@ -243,7 +243,7 @@ public class ManagerController {
 		try {
 			String header = (ManagerController.br.readLine()).trim();
 			for (News n: News.news) {
-				if (n.header == header) {
+				if (n.header.equals(header)) {
 					if (model.deleteNews(n)) {
 						System.out.println("News deleted successfully");
 						return true;
@@ -273,9 +273,9 @@ public class ManagerController {
 	}
 	
 	
-	void run() {
+	public void run() {
 		try {
-			System.out.println("Welcome");
+			System.out.println("Welcome Manager " + model.firstLastName);
 			menu: while (true) {
 				System.out.println("What do you want to do?\n 1) Add Course For Registration \n 2) View Info About Students  \n 3) View Info About Teachers  \n 4) View Signed Requests \n 5) Assign Courses To Teachers \n 6) Add News 7) Delete News \n 8) add student \n 9)Exit");
 				int choice = Integer.parseInt(ManagerController.br.readLine());
