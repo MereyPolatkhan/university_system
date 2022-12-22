@@ -9,7 +9,7 @@ import Config.Database;
 import Model.*;
 import View.*;
 
-public class ManagerController {
+public class ManagerController extends UserController {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public Manager model;
@@ -233,6 +233,8 @@ public class ManagerController {
 		News news = createNews();
 		if (model.addNews(news)) {
 			System.out.println("News added successfully");
+			News.serializeNews();
+			return true;
 		}
 		System.out.println("Please, manager, try again");
 		return false;
@@ -261,23 +263,23 @@ public class ManagerController {
 		return false;
 	}
 
-
-	
-	private void save() {
-		Database.serializeAll();
-	}
-	
-	private void exit() {
-		System.out.println("Bye bye");
-		save();
-	}
 	
 	
 	public void run() {
 		try {
 			System.out.println("Welcome Manager " + model.firstLastName);
 			menu: while (true) {
-				System.out.println("What do you want to do?\n 1) Add Course For Registration \n 2) View Info About Students  \n 3) View Info About Teachers  \n 4) View Signed Requests \n 5) Assign Courses To Teachers \n 6) Add News 7) Delete News \n 8) add student \n 9)Exit");
+				System.out.println("What do you want to do?\n "
+						+ "1) Add Course For Registration \n "
+						+ "2) View Info About Students  \n "
+						+ "3) View Info About Teachers  \n "
+						+ "4) View Signed Requests \n "
+						+ "5) Assign Courses To Teachers \n "
+						+ "6) Add News \n"
+						+ "7) Delete News \n "
+						+ "8) add student \n "
+						+ "9) see news"
+						+ "10) Exit");
 				int choice = Integer.parseInt(ManagerController.br.readLine());
 				if (choice == 1) {
 					addCourseForRegistration: while(true){
@@ -368,7 +370,20 @@ public class ManagerController {
 						break;
 					}
 				}
+				
 				else if (choice == 9) {
+					seeNews: while(true){
+						seeNews();
+						System.out.println("\n 1) see News \n 2) Return back \n 3) Exit");
+						choice = Integer.parseInt(br.readLine());
+						if(choice==1) continue seeNews;
+						if(choice==2) continue menu;
+						if(choice==3) {exit();  break menu;}
+						break;
+					}
+				}
+				
+				else if (choice == 10) {
 					exit();
 					break menu;
 				}

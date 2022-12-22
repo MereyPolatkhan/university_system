@@ -37,7 +37,7 @@ public class Student extends UserDecorator implements Serializable {
     	this.year = year;
     	this.department = department;
     	this.speciality = speciality;
-    	this.transcript = new Transcript();
+    	this.transcript = new Transcript(new Vector<Attestation>());
     	if (level == StudentLevel.PhD) super.isResearcher = true;
     	else super.isResearcher = false;
     	
@@ -50,6 +50,7 @@ public class Student extends UserDecorator implements Serializable {
     }
     
     public Schedule getSchedule() {
+    	Schedule schedule = new Schedule(new TreeMap<Lesson, Course>());
     	return schedule;
     }
     
@@ -61,8 +62,17 @@ public class Student extends UserDecorator implements Serializable {
 		return transcript;
     }
     
+    public void setTranscript(Transcript transcript) {
+    	this.transcript = transcript;
+    }
+    
     //                          Operations                                  
 
+    
+    /* 
+     * @param course that student want to register
+     * @return boolean expression that identifies course was added or not
+     */
     public boolean registerCourse(Course course) {
     	if (Manager.approveCourseRegistration(this, course)) {
     		if (computeCreditsForThisSemester() + course.credits <= 21) {
@@ -73,6 +83,10 @@ public class Student extends UserDecorator implements Serializable {
     	return false;
     }
     
+    
+    /* 
+     * @return Integer number of credits of courses that student have for this semester 
+     */
     private int computeCreditsForThisSemester() {
 		int total = 0;
 		for (Course course: this.coursesMarks.keySet()) {
@@ -81,17 +95,26 @@ public class Student extends UserDecorator implements Serializable {
 		return total;
 	}
 
-
+    /* 
+     * @param course that student wants know about teachers
+     * @return Vector of Teachers with their info
+     */
 	public Vector<Teacher> getTeachers(Course course) {
     	return course.getTeachers();
     }
 
-
+	 /* 
+	  * @param course that student wants know about marks
+	  * @return Vector of marks of exact course
+	  */
     public Mark viewMarks(Course course) {
         return this.getCoursesMarks().get(course);
     }
     
-  
+    /* 
+     * @return Vector of courses that student have current semester
+     * 
+     */
 	public Vector<Course> viewCourses() {
 		Vector<Course> studentCourses = new Vector<Course>();
 		for (Course course: coursesMarks.keySet()) {
@@ -100,6 +123,12 @@ public class Student extends UserDecorator implements Serializable {
 		return studentCourses;
     }
 
+	
+	 /* 
+	  * @param teacher that need to be rated
+	  * @param double value of rate that student put
+	  */
+	 
     public void rateTeacher(Teacher teacher, Double point) {
     	teacher.teacherRate.value += point;
 		teacher.teacherRate.count += 1;
@@ -107,11 +136,19 @@ public class Student extends UserDecorator implements Serializable {
     }
   
 
-
+    /* 
+     * @param Diploma Project
+     * @return boolean expression that identifies written Diploma Project or not
+     */
     public boolean writeDiplomaProject(DiplomaProjects d) {
     	 return true;
     }
 	
+    
+
+    /* 
+     * @return double value of current GPA of student
+     */
     public double getCurrentGPA() {
     	double gpa = 0;
     	for (Map.Entry<Course, Mark> entry: coursesMarks.entrySet()) {
@@ -120,6 +157,9 @@ public class Student extends UserDecorator implements Serializable {
     	return gpa / coursesMarks.size();
     }
     
+    /* 
+     * @return double value of general GPA of student
+     */
     public double getGeneralGpa() {
     	double gpa = 0;
     	int cnt = 0;

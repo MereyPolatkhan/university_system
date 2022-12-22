@@ -24,7 +24,10 @@ public class Attestation implements Comparable<Attestation>, Cloneable , Seriali
 		this.courses = courses;
 	}
 	
-	
+	/*
+	 * returns last User actions
+	 * 
+	 * */
 	public double getAttestationGPA() {
 		int credits = 0;
 		double total = 0;

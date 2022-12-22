@@ -1,6 +1,7 @@
 package Controller;
 
 import View.LibrarianView;
+import View.NewsView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.io.InputStreamReader;
 import Config.Database;
 import Model.*;
 
-public class LibrarianController {
+public class LibrarianController extends UserController {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public Librarian model;
@@ -178,21 +179,18 @@ public class LibrarianController {
 	}
 	
 	
-	private void save() {
-		Database.serializeAll();
-	}
-	
-	private void exit() {
-		System.out.println("Bye bye");
-		save();
-	}
-	
-	
 	public void run() {
 		try {
 			System.out.println("Welcome Librarian " + model.firstLastName);
 			menu: while (true) {
-				System.out.println("What do you want to do?\n 1) Give Book \n 2) Return Book \n 3) Add Book To Library \n 4) Remove Book From Library \n 5) print Library \n 6) Exit");
+				System.out.println("What do you want to do?\n "
+						+ "1) Give Book \n "
+						+ "2) Return Book \n "
+						+ "3) Add Book To Library \n "
+						+ "4) Remove Book From Library \n "
+						+ "5) print Library \n "
+						+ "6) see news"
+						+ "7) Exit");
 				int choice = Integer.parseInt(br.readLine());
 				if (choice == 1) {
 					giveBook: while(true){
@@ -254,6 +252,19 @@ public class LibrarianController {
 				}
 				
 				else if (choice == 6) {
+					seeNews: while(true){
+						seeNews();
+						System.out.println("\n 1) see News \n 2) Return back \n 3) Exit");
+						choice = Integer.parseInt(br.readLine());
+						if(choice==1) continue seeNews;
+						if(choice==2) continue menu;
+						if(choice==3) {exit();  break menu;}
+						break;
+					}
+				}
+				
+				
+				else if (choice == 7) {
 					exit();
 					break menu;
 				}

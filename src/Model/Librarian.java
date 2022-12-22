@@ -46,7 +46,9 @@ public class Librarian extends Employee implements Serializable {
 		}
 	}
 	
-
+	/* 
+	 * serializing books in library
+	 */
 	public static void serializeBooksInLib() {
 		try {
 			FileOutputStream fos = new FileOutputStream(Database.getPath() + "books.ser");
@@ -63,6 +65,9 @@ public class Librarian extends Employee implements Serializable {
 		}
 	}
 	
+	/* 
+	 * deserializing books in library
+	 */
 	public static void deserializeBooksInLib() {
 		try {
 			FileInputStream fis = new FileInputStream(Database.getPath() + "books.ser");
@@ -82,6 +87,10 @@ public class Librarian extends Employee implements Serializable {
 	}
 	
 
+
+	/* 
+	 * serializing borrowed books from library
+	 */
 	public static void serializeBorrowed() {
 		try {
 			FileOutputStream fos = new FileOutputStream(Database.getPath() + "borrowed.ser");
@@ -98,6 +107,10 @@ public class Librarian extends Employee implements Serializable {
 		}
 	}
 	
+
+	/* 
+	 * deserializing borrowed books from library
+	 */
 	public static void deserializeBorrowed() {
 		try {
 			FileInputStream fis = new FileInputStream(Database.getPath() + "borrowed.ser");
@@ -136,6 +149,12 @@ public class Librarian extends Employee implements Serializable {
     
     //                          Operations                   
     
+    
+    /**gives Book to the User for 6 months 
+    * 
+    *@param book the book which is taking the User 
+    *@param User the User to whom the book is given 
+    */ 
     public static boolean giveBook(Book book, User user) { 
     	HashMap<User, Map<LocalDate, Book>> booksBorrowed = Librarian.borrowedBooks;
     	if (Librarian.removeBookFromLibrary(book)) {
@@ -147,6 +166,10 @@ public class Librarian extends Employee implements Serializable {
     	return false;
     }
     
+    /** User returns the Book 
+    *@param book the book which is returing the User 
+    *@param User the User to whom the book was given 
+    */ 
     public static boolean returnBook(Book book, User user) { 
     	Map<LocalDate, Book> userBooks = Librarian.borrowedBooks.get(user);
     	if (userBooks.containsValue(book)) {
@@ -167,6 +190,11 @@ public class Librarian extends Employee implements Serializable {
     	return false;
     }
     
+    
+    /** adding a new book to the books in Library 
+    * 
+    *@param book the book which is being added as new to The Library 
+    */ 
     public static boolean addBookToLibrary(Book book) {
     	HashMap<Book, Integer> booksInLib = Librarian.booksInLibrary;
     	
@@ -179,6 +207,11 @@ public class Librarian extends Employee implements Serializable {
     	return true;
     }
     
+    
+    /**removing  the book to the books in Library 
+    * 
+    *@param book the book which is being removed from The Library 
+    */ 
     public static boolean removeBookFromLibrary(Book book) {
     	HashMap<Book, Integer> booksInLib = Librarian.booksInLibrary;
     	

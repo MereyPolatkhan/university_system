@@ -11,6 +11,10 @@ public class Schedule implements Serializable{
 		lessonCourses = new TreeMap<Lesson, Course> ();
 	}
 	
+	public Schedule(TreeMap<Lesson, Course> lessonCourses) {
+		this.lessonCourses = lessonCourses;
+	}
+	
 	
 	public void generateSchedule(Vector<Course> courses) {
 		for (Course course: courses) {

@@ -50,12 +50,16 @@ public class Teacher extends Employee implements Serializable{
     
     
     //                          Operations                                  
-    
+    /* 
+     * @return all the courses teaching by the Teacher
+     */
     public Vector<Course> viewCourses() {
     	return this.courses;
     }
     
-    
+    /* 
+     * @return Students which can be taught by the teacher
+     */
     public HashSet<Student> viewStudents() { // use LINQ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     	HashSet<Student> students = new HashSet<Student>();
     	for (Course course: this.courses) {
@@ -66,6 +70,13 @@ public class Teacher extends Employee implements Serializable{
     	return students;
     }
 
+    /* 
+     * @param student that need to put mark
+     * @param course that need to put mark
+     * @param digit mark
+     * @return putting Mark to exact Student, picking for Course for what Mark is put
+     * 
+     */
     public boolean putMark(Student student, Course course, Mark mark) {
     	if (student.getCoursesMarks().containsKey(course)) {
     		student.getCoursesMarks().put(course, mark);
@@ -74,6 +85,13 @@ public class Teacher extends Employee implements Serializable{
     	return false;
     }
     
+    
+    /* 
+     * @param student that need to put attendance
+     * @param course that need to put attendance
+     * @param boolean expression that identifies student attended or not
+     * @return attendance put or not
+     */
     public boolean putAttendance(LocalDate date, Student student, Course course, double mark) {
 	    
 	   	Map<Course, TreeMap<LocalDate, Pair<Boolean, Double>>> coursesAttendancePoints = student.getJournal().courseAttendanceAndPoints;
@@ -85,7 +103,12 @@ public class Teacher extends Employee implements Serializable{
 	    
     }
     
-    
+    /* 
+  * @param course that need to be added
+  * @param file that need to be added exact course
+  * @return boolean expression that identifies added the file or not
+  * 
+  */
     public boolean addCourseFile(Course course, TeacherCourseFile teacherCourseFile) {
     	Vector<TeacherCourseFile> teacherCourseFiles = courseFiles.get(course);
     	teacherCourseFiles.add(teacherCourseFile);
@@ -93,6 +116,12 @@ public class Teacher extends Employee implements Serializable{
     	return true;
     }
     
+    
+    /* 
+     * @param course that need to be deleted
+     * @param file that need to be deleted from exact course
+     * @return boolean expression that identifies deleted the file or not
+     */
     public boolean deleteCourseFile(Course course, TeacherCourseFile teacherCourseFile) {
     	Vector<TeacherCourseFile> teacherCourseFiles = courseFiles.get(course);
     	if (teacherCourseFiles.isEmpty()) {
@@ -103,6 +132,11 @@ public class Teacher extends Employee implements Serializable{
     	return true;
     }
     
+    
+    /* 
+     * getting rating of this teacher
+     * @return rating
+     */
     public double getRateValue() {
     	return this.teacherRate.value;
     }

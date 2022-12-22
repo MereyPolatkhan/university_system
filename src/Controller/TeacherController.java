@@ -24,10 +24,11 @@ import Model.TeacherLevel;
 import Model.UserFactory;
 import View.CourseView;
 import View.ManagerView;
+import View.NewsView;
 import View.StudentView;
 import View.TeacherView;
 
-public class TeacherController {
+public class TeacherController extends UserController {
 	
 
 	public Teacher model;
@@ -389,16 +390,6 @@ public class TeacherController {
 	public void getRateValue() {
 		System.out.println("Teacher Rating: " + model.getRateValue());
 	}
-	
-	private void save() {
-		Database.serializeAll();
-	}
-	
-	private void exit() {
-		System.out.println("Bye bye");
-		save();
-	}
-	
 	public void becomeResearcher() {
 		model.isResearcher = true;
 		System.out.println("Now you are researcher please provide h-index: ");
@@ -444,11 +435,41 @@ public class TeacherController {
 		}
 	}
 	
+	public void addResearchProject() {
+		try {
+			System.out.println("Provide project: ");
+			String project = br.readLine().trim();
+			if (model.addResearchProject(project)) {
+				System.out.println("Succesfully added");
+			}
+			else {
+				System.out.println("Please become researcher");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void run() {
 		try {
 			System.out.println("Welcome! " + model.firstLastName);
 			menu : while(true){
-				System.out.println("What do you want to do?\n 1) View Courses \n 2) View Students  \n 3) Put Mark  \n 4) Show Schedule  \n 5) Put Attendance \n 6) Add Course File \n 7) Delete Course File \n 8) get Rate Value \n 9) Become Researcher \n 10) show Researcher Info 11) add research paper \n 12) Exit");
+				System.out.println("What do you want to do?\n "
+						+ "1) View Courses \n "
+						+ "2) View Students  \n "
+						+ "3) Put Mark  \n "
+						+ "4) Show Schedule  \n "
+						+ "5) Put Attendance \n "
+						+ "6) Add Course File \n "
+						+ "7) Delete Course File \n "
+						+ "8) get Rate Value \n "
+						+ "9) Become Researcher \n "
+						+ "10) show Researcher Info \n"
+						+ "11) add research paper \n "
+						+ "12) add research project \n"
+						+ "13) see all news \n"
+						+ "14) Exit");
 				int choice = Integer.parseInt(br.readLine());
 				if(choice==1){     
 					viewCourses: while(true){
@@ -580,9 +601,32 @@ public class TeacherController {
 					}
 				}
 				
-				
-				
 				else if (choice==12){
+					addProject: while(true){
+						addResearchProject();
+						System.out.println("\n 1) add researcher project \n 2) Return back \n 3) Exit");
+						choice = Integer.parseInt(br.readLine());
+						if(choice==1) continue addProject;
+						if(choice==2) continue menu;
+						if(choice==3) {exit();  break menu;}
+						break;
+					}
+				}
+				
+				else if (choice==13){
+					printNews: while(true){
+						seeNews();
+						System.out.println("\n 1) see news \n 2) Return back \n 3) Exit");
+						choice = Integer.parseInt(br.readLine());
+						if(choice==1) continue printNews;
+						if(choice==2) continue menu;
+						if(choice==3) {exit();  break menu;}
+						break;
+					}
+				}
+				
+				
+				else if (choice==14){
 					exit();
 					break menu;
 				}

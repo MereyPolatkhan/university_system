@@ -35,7 +35,11 @@ public class Manager extends Employee implements ManageNews, Serializable{
     }
     
     
-    
+    /**approving registration of the Student , depending on if the Student took the Course later 
+    * 
+     *@param the student the student whose is registering 
+    *@param the course the course for which the student is registering 
+    */  
     public static boolean approveCourseRegistration(Student student, Course course) {
         Vector<Course> prerequisites = course.prerequisites;
         Vector<Attestation> attestations = student.getTranscript().attestations;
@@ -64,10 +68,20 @@ public class Manager extends Employee implements ManageNews, Serializable{
         return true;
     }
     
+    /**creating a new Course for registration 
+     * 
+     *@param course the course you want to add 
+     */ 
     public static boolean addCourseForRegistration(Course course) {
         return Database.registrationCourses.add(course);
     }
     
+    
+    /*
+     * @param vector of numbers 
+     * @param arithmetic mean
+     * @return standard deviation
+     */
 	private static double standardDeviation(Vector<Double> numbers, double mean) {
 		double result = 0;
 		double sumSquare = 0;
@@ -79,7 +93,11 @@ public class Manager extends Employee implements ManageNews, Serializable{
 		return result;
 	}
 	
-    
+	
+	/**creating statictical  report about exact Student: mean GPA, minimum GPA, maximum GPA; mean score, minimum  score, maximum score  
+	*  
+	*@param student the student for whom the report is being written  
+	*/  
     public static void createStatisticalReportOnAcademicPerformance(Student student) {
     	double meanGpa = student.getGeneralGpa();
     	double minGpa = 5, maxGpa = 0;
@@ -115,6 +133,13 @@ public class Manager extends Employee implements ManageNews, Serializable{
         
     }
     
+    
+    /**showing info about all Students, sorted by gpa or year of study 
+    * 
+    *@param howToSort  howToSort the info 
+    *@throws CloneNotSupportedException
+     *@return the Vector of Students
+    */ 
     public Vector<Student> viewInfoAboutStudents(HowToSort howToSort) throws CloneNotSupportedException {
     	Vector<Student> studentss = new Vector<Student>();
     	 
@@ -131,6 +156,13 @@ public class Manager extends Employee implements ManageNews, Serializable{
         return studentss;
     }
     
+    
+    /** showing info about all Teachers, sorted by salary or rate 
+    * 
+    *@param howToSort  howToSort the info 
+    *@throws CloneNotSupportedException
+    *@return the Vector of Teachers 
+    */ 
     public Vector<Teacher> viewInfoAboutTeachers(HowToSort howToSort) throws CloneNotSupportedException {
     	Vector<Teacher> teacherss = new Vector<Teacher>();
     	for (Teacher t: Database.getTeachersFromDB()) {
@@ -146,6 +178,11 @@ public class Manager extends Employee implements ManageNews, Serializable{
         return teacherss;
     }
     
+    
+    /**showing signed all equests signed by Dean 
+    * 
+    *@returns the Vector of Requests
+    */ 
     public Vector<Request> viewSignedRequests() {
         Vector<Request> signed = new Vector<Request>();
         for (Request request: Manager.requests) {
@@ -156,6 +193,13 @@ public class Manager extends Employee implements ManageNews, Serializable{
         return signed;
     }
     
+    
+    /**assigning courses to Teachers 
+    * 
+    *@param Vector<Course> courses Vector<Course> courses which are being assigned to the Teachers 
+    *@param Vector<Teacher> teachers Vector<Teacher> teachers who are getting new Courses to teach 
+    *@return the boolean expression the Courses are assigned to Teachers
+    */
     public static boolean assignCoursesToTeachers(Vector<Course> courses, Vector<Teacher> teachers) {
     	boolean isAtLeastOneCourseAdded= true;
     	

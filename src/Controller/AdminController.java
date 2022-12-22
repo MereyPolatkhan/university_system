@@ -8,7 +8,7 @@ import Config.Database;
 import Model.*;
 import View.*;
 
-public class AdminController {
+public class AdminController extends UserController {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public Admin model;
@@ -56,21 +56,19 @@ public class AdminController {
 	}
 	
 	
-	private void save() {
-		Database.serializeAll();
-	}
-	
-	private void exit() {
-		System.out.println("Bye bye");
-		save();
-	}
 	
 	
 	public void run() {
 		try {
 			System.out.println("Welcome Admin " + model.firstLastName);
 			menu: while (true) {
-				System.out.println("What do you want to do?\n 1) Add user \n 2) remove user \n 3) view last actions \n 4) print users \n 5) Exit");
+				System.out.println("What do you want to do?\n "
+						+ "1) Add user \n "
+						+ "2) remove user \n "
+						+ "3) view last actions \n "
+						+ "4) print users \n "
+						+ "5) see news \n"
+						+ "6) Exit");
 				int choice = Integer.parseInt(br.readLine());
 				if (choice == 1) {
 					addUser: while(true){
@@ -119,8 +117,19 @@ public class AdminController {
 					}
 				}
 				
-				
 				else if (choice == 5) {
+					seeNews: while(true){
+						seeNews();
+						System.out.println("\n 1) see News \n 2) Return back \n 3) Exit");
+						choice = Integer.parseInt(br.readLine());
+						if(choice==1) continue seeNews;
+						if(choice==2) continue menu;
+						if(choice==3) {exit();  break menu;}
+						break;
+					}
+				}
+				
+				else if (choice == 6) {
 					exit();
 					break menu;
 				}
