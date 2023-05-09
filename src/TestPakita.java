@@ -33,12 +33,12 @@ public class TestPakita {
 		
 		
 		
-//		Department dep = new Department("FIT");
-//		User managerUser = new Manager(new BasicUser(), "Kaidarova N", "kaid", "PassssWpp", 2000, ManagerTypes.FACULTY, dep);
-//		Manager manager = (Manager)managerUser;
-//		
-//		ManagerController mc = new ManagerController(manager, new ManagerView());
-//		mc.run();
+		Department dep = new Department("FIT");
+		User managerUser = new Manager(new BasicUser(), "Kaidarova N", "kaid", "PassssWpp", 2000, ManagerTypes.FACULTY, dep);
+		Manager manager = (Manager)managerUser;
+		
+		ManagerController mc = new ManagerController(manager, new ManagerView());
+		mc.run();
 		
 		
 		
@@ -52,9 +52,9 @@ public class TestPakita {
 //		}
 //		TeacherController tc = new TeacherController(teacherHiroharu, new TeacherView());
 //		tc.run();
-		
-		
-		
+//		
+//		
+//		
 		
 //		Student atsushi = null;
 //		for (Student s: Database.getStudentsFromDB()) {
@@ -69,16 +69,16 @@ public class TestPakita {
 //		scAts.run();
 //		
 //		
-		
-		Student pakita = null;
-		for (Student s: Database.getStudentsFromDB()) {
-			if (s.firstLastName.equals("Pakita")) {
-				pakita = s;
-				break;
-			}
-		}
-		StudentController scPak= new StudentController(pakita, new StudentView());
-		scPak.run();
+//		
+//		Student pakita = null;
+//		for (Student s: Database.getStudentsFromDB()) {
+//			if (s.firstLastName.equals("Pakita")) {
+//				pakita = s;
+//				break;
+//			}
+//		}
+//		StudentController scPak= new StudentController(pakita, new StudentView());
+//		scPak.run();
 		
 		
 		
